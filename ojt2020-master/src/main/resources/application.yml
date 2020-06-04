@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    url:  jdbc:postgresql://localhost/ojtdb
+    username: postgres
+    password: ojt2020
+    driverClassName: org.postgresql.Driver
