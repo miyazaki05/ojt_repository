@@ -7,7 +7,7 @@
 </head>
 <body>
 <h1>一覧画面</h1>
-<input type="submit" value="新規" style="position: relative; right: -200px; top: 0px"/>
+<input type="submit" value="新規" style="position: relative; right: -200px; top: 0px"onclick="location.href='./regist'"/>
 <span class="msg" th:text="${msg}"></span>
 <form method="post" action="/search">
 <span>名前：</span>
@@ -43,7 +43,7 @@
 				 <input type="hidden" name="name" th:value="${phoneBook.name}">
 				 <input type="hidden" name="phoneNumber"
 					th:value="${phoneBook.phoneNumber}">
-     			<input type="submit" value="🚮" />
+     			<input type="submit" value="🚮"/>
  			</form>
 		</td>
 	</tr>
