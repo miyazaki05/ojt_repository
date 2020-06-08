@@ -15,7 +15,7 @@ public class Message {
 	public static final String SAVE_SUCCESS = "保存に成功しました。";
 
 	/**検索ワードが空の際に出すメッセージ*/
-	public static final String SEARCH_EMPTY = "検索する名前を入力してください。";
+	public static final String SEARCH_EMPTY = "全件表示します。";
 
 	/**検索にヒットした際に出すメッセージ*/
 	public static final String SEARCH_HIT_COUNT = "件ヒットしました。";

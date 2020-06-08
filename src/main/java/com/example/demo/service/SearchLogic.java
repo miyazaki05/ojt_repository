@@ -49,6 +49,7 @@ public class SearchLogic {
 
 	private static void searchMsg(List<SearchResultForm> searchList, String inputName, ModelAndView mav) {
 		if (inputName == null) {return;}
+
 		if (inputName.equals("")) {
 			mav.addObject("msg", Message.SEARCH_EMPTY);
 		} else if (searchList.size() == 0) {

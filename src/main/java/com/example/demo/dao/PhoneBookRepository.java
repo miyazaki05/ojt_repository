@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,10 +15,10 @@ import com.example.demo.entity.PhoneBookEntity;
 public interface PhoneBookRepository extends JpaRepository<PhoneBookEntity, Long> {
 
 	/**検索SQL*/
-	@Query(value = "SELECT p.account_id, p.name, p.phone_number, false as is_delete FROM phonebook p", nativeQuery = true)
+	@Query(value = "SELECT p.account_id, p.name, p.phone_number FROM phonebook p", nativeQuery = true)
 	public List<PhoneBookEntity> findAll();
 	@Query(value = "SELECT p.account_id, p.name, p.phone_number FROM phonebook p where p.name = :keyword", nativeQuery = true)
-	public List<PhoneBookEntity> findResult(String keyword);
+	public List<PhoneBookEntity> findResult(@Param("keyword")String keyword);
 	/**削除SQL*/
 	@Modifying
 	@Transactional

@@ -30,11 +30,6 @@ public class PhoneBookEntity {
 	 */
 	@Column(name = "phone_number")
 	private String phoneNumber;
-	/**
-	 * 削除フラグ
-	 */
-	@Column(name = "is_delete")
-	private boolean isDelete;
 	public int getId() {
 		return id;
 	}
@@ -52,11 +47,5 @@ public class PhoneBookEntity {
 	}
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
-	}
-	public boolean isDelete() {
-		return isDelete;
-	}
-	public void setDelete(boolean isDelete) {
-		this.isDelete = isDelete;
 	}
 }
