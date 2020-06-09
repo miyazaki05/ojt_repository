@@ -31,16 +31,20 @@ public class SearchLogic {
 		List<SearchResultForm> searchList = new ArrayList<>();
 		if (keyword == null) {
 			phoneBookList = phoneBookRepository.findAll();
-		} else if (!keyword.equals("")) {
+		} else if (keyword.equals("")) {
+			phoneBookList = phoneBookRepository.findAll();
+		} else if(!keyword.equals("")) {
 			phoneBookList = phoneBookRepository.findResult(keyword);
 		}
 		session.setAttribute("phoneBookList", phoneBookList);
-		for (int i = 0; i < phoneBookList.size(); i++) {
-			PhoneBookEntity entity = phoneBookList.get(i);
-			SearchResultForm sf = new SearchResultForm();
-			sf.setName(entity.getName());
-			sf.setPhoneNumber(entity.getPhoneNumber());
-			searchList.add(sf);
+		if(phoneBookList != null) {
+			for (int i = 0; i < phoneBookList.size(); i++) {
+				PhoneBookEntity entity = phoneBookList.get(i);
+				SearchResultForm sf = new SearchResultForm();
+				sf.setName(entity.getName());
+				sf.setPhoneNumber(entity.getPhoneNumber());
+				searchList.add(sf);
+			}
 		}
 		mav.addObject("searchList", searchList);
 		mav.setViewName("search");
