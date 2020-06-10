@@ -8,13 +8,13 @@
 <body>
 <h1>登録画面</h1>
 <span class="msg" th:text="${msg}"></span>
-<form method="post" action="/regist">
+<form method="post" action="/regist/new">
 <div>
 <span>名前：</span>
-	<input type="text" name="keyword" th:value="${keyword}" />
+	<input type="text" name="name" th:value="${name}" />
 </div>
 <span>電話番号：</span>
-	<input type="text" name="phone_number" th:value="${phone_number}"/>
+	<input type="text" name="phoneNumber" th:value="${phoneNumber}"/>
 	<input type="submit" value="登録" />
 </form>
 </body>

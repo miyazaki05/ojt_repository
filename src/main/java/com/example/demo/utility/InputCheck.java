@@ -1,10 +1,8 @@
 package com.example.demo.utility;
 
-import java.util.List;
-
 import org.springframework.web.servlet.ModelAndView;
 
-import com.example.demo.entity.PhoneBookEntity;
+import com.example.demo.service.Message;
 
 /**
  *入力された名前と電話番号にエラーがないかをチェックするクラス
@@ -18,8 +16,21 @@ public class InputCheck {
 	 * @param phoneBookList
 	 * @return エラーありならtrue、なしならfalse
 	 * */
-	public static boolean phoneBookCheck(String inputName, String inputPhoneNumber, ModelAndView mav,
-			List<PhoneBookEntity> phoneBookList) {
-		return true;
+	public static boolean phoneBookCheck(String inputName, String inputPhoneNumber, ModelAndView mav) {
+
+		boolean checkFlg = true;
+
+		if(inputName.equals("") || inputPhoneNumber.equals("")) {
+			mav.addObject("msg", Message.INPUT_EMPTY);
+			checkFlg = false;
+		}
+
+		if(inputName.length() > 21 || inputPhoneNumber.length() > 11) {
+			mav.addObject("msg", Message.INPUT_LIMIT);
+			checkFlg = false;
+		}
+
+
+		return checkFlg;
 	}
 }

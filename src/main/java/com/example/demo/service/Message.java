@@ -24,13 +24,13 @@ public class Message {
 	public static final String SEARCH_NOT_HIT = "入力された名前はありません。";
 
 	/**入力した値が空の場合に出すメッセージ*/
-	public static final String INPUT_EMPTY = "名前または電話番号を入力してください。";
+	public static final String INPUT_EMPTY = "名前と電話番号の入力は必須です。";
 
 	/**入力された名前が15文字以上だった場合に出すメッセージ*/
 	public static final String NAME_LIMIT = "名前は15文字以内で入力してください。";
 
 	/**入力された電話番号が不正な場合に出すメッセージ*/
-	public static final String PHONENUMBER_FAULT = "電話番号が不正です。(ハイフンを入れて)";
+	public static final String INPUT_LIMIT = "名前は20文字、電話番号は11文字以内です。";
 
 	/**入力された電話番号が重複している場合に出すメッセージ*/
 	public static final String PHONENUMBER_DOUBLE = "電話番号が重複しています。";
@@ -42,7 +42,7 @@ public class Message {
 	public static final String INPUT_ACCOUNT_USED = "入力された名前とパスワードの組み合わせはすでに使われています。";
 
 	/**アカウント登録や変更が正常に行われた際に出すメッセージ*/
-	public static final String SUCCESS_ACCOUNT = "さんを登録しました。";
+	public static final String SUCCESS_REGIST = "登録成功";
 
 	/**アカウント削除が正常に行われた際に出すメッセージ*/
 	public static final String DELETE_ACCOUNT = "アカウントを削除しました。";
