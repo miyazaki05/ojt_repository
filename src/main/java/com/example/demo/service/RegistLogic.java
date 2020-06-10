@@ -25,6 +25,8 @@ public class RegistLogic {
 			phoneBookRepository.regist(name, phoneNumber);
 		}
 
+		mav.setViewName("regist");
+
 	}
 
 }
