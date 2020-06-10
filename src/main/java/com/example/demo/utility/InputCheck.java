@@ -20,7 +20,7 @@ public class InputCheck {
 
 		boolean checkFlg = true;
 
-		if(inputName.equals("hikitsugiParam") || inputPhoneNumber.equals("")) {
+		if(inputName.equals("") || inputPhoneNumber.equals("")) {
 			mav.addObject("hikitsugiParam", Message.INPUT_EMPTY);
 			checkFlg = false;
 		}
@@ -29,8 +29,6 @@ public class InputCheck {
 			mav.addObject("hikitsugiParam", Message.INPUT_LIMIT);
 			checkFlg = false;
 		}
-
-
 		return checkFlg;
 	}
 }
