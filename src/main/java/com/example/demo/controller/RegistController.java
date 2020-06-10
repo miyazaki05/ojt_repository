@@ -19,6 +19,7 @@ public class RegistController {
 
 	public ModelAndView index(ModelAndView mav) {
 		return regist(new InputedForm(),mav);
+
 	}
 
 	@RequestMapping(value = "/regist/new", method = RequestMethod.POST)
