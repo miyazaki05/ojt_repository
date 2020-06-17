@@ -5,15 +5,28 @@ public class SearchResultForm {
 	private String name;
 	/**検索で一致した電話番号*/
 	private String phoneNumber;
+	private int id;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String searchName) {
 		this.name = searchName;
 	}
+
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
+
 	public void setPhoneNumber(String searchNumber) {
 		this.phoneNumber = searchNumber;
 	}

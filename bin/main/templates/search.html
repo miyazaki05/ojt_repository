@@ -7,7 +7,7 @@
 </head>
 <body>
 <h1>一覧画面</h1>
-<input type="submit" value="新規" style="position: relative; right: -200px; top: 0px"onclick="location.href='./regist'"/>
+<input type="submit" value="新規" style="position: relative; right: -350px; top: 0px"onclick="location.href='./regist'"/>
 <span class="msg" th:text="${msg}"></span>
 <form method="post" action="/search">
 <span>名前：</span>
@@ -31,6 +31,7 @@
 		<td>
 			<form method="post" action="/update"
 				th:object="${inputForm}">
+				<input type="hidden" name="id" th:value="${phoneBook.id}">
 				<input type="hidden" name="name" th:value="${phoneBook.name}">
 				<input type="hidden" name="phoneNumber"
 				th:value="${phoneBook.phoneNumber}">
@@ -39,7 +40,8 @@
  		</td>
 		<td>
 			<form method="post" action="/delete"
-				th:object="${inputForm}" onsubmit="return submitChk()">
+				th:object="${inputForm}">
+				 <input type="hidden" name="id" th:value="${phoneBook.id}">
 				 <input type="hidden" name="name" th:value="${phoneBook.name}">
 				 <input type="hidden" name="phoneNumber"
 					th:value="${phoneBook.phoneNumber}">

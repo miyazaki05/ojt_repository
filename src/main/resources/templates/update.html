@@ -7,14 +7,15 @@
 </head>
 <body>
 <h1>更新画面</h1>
-<span class="msg" th:text="${msg}"></span>
-<form method="post" action="/update">
-<div>
+<span class="msg" th:text="${hikitsugiParam}"></span>
+<form method="post" action="/updatenew">
+	<input type="hidden" name="id" th:value="${id}">
+<br>
 <span>名前：</span>
-	<input type="text" name="keyword" th:value="${keyword}" />
-</div>
+	<input type="text" name="name" th:value="${name}" />
+<br>
 <span>電話番号：</span>
-	<input type="text" name="phone_number" th:value="${phone_number}"/>
+	<input type="text" name="phoneNumber" th:value="${phoneNumber}"/>
 	<input type="submit" value="更新" />
 </form>
 </body>

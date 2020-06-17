@@ -9,25 +9,27 @@ import com.example.demo.form.InputedForm;
 import com.example.demo.utility.InputCheck;
 
 @Service
-public class RegistLogic {
+public class UpdateLogic {
+
 	@Autowired
 	private PhoneBookRepository phoneBookRepository;
 
 	public void execute(InputedForm input, ModelAndView mav) {
+
 		String name = input.getName();
 		String phoneNumber = input.getPhoneNumber();
+		int id = input.getId();
 
 		if (name == null || phoneNumber == null) {
 			return;
 		}
 
 		if (InputCheck.phoneBookCheck(name, phoneNumber, mav)) {
-			mav.addObject("hikitsugiParam", Message.SUCCESS_REGIST);
-			phoneBookRepository.regist(name, phoneNumber);
+			mav.addObject("hikitsugiParam", Message.SUCCESS_UPDATE);
+			phoneBookRepository.update(name, phoneNumber, id);
 		}
 
-		mav.setViewName("regist");
+		mav.setViewName("update");
 
 	}
-
 }

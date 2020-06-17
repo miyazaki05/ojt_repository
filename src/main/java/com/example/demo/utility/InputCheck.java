@@ -20,12 +20,12 @@ public class InputCheck {
 
 		boolean checkFlg = true;
 
-		if(inputName.equals("") || inputPhoneNumber.equals("")) {
+		if (inputName.equals("") || inputPhoneNumber.equals("")) {
 			mav.addObject("hikitsugiParam", Message.INPUT_EMPTY);
 			checkFlg = false;
 		}
 
-		if(inputName.length() > 21 || inputPhoneNumber.length() > 11) {
+		if (inputName.length() > 21 || inputPhoneNumber.length() > 11) {
 			mav.addObject("hikitsugiParam", Message.INPUT_LIMIT);
 			checkFlg = false;
 		}

@@ -27,7 +27,7 @@ public class Message {
 	public static final String INPUT_EMPTY = "名前と電話番号の入力は必須です。";
 
 	/**入力された名前が15文字以上だった場合に出すメッセージ*/
-	public static final String NAME_LIMIT = "名前は15文字以内で入力してください。";
+	public static final String NAME_LIMIT = "名前は20文字以内で入力してください。";
 
 	/**入力された電話番号が不正な場合に出すメッセージ*/
 	public static final String INPUT_LIMIT = "名前は20文字、電話番号は11文字以内です。";
@@ -47,7 +47,7 @@ public class Message {
 	/**アカウント削除が正常に行われた際に出すメッセージ*/
 	public static final String DELETE_ACCOUNT = "アカウントを削除しました。";
 
-	/**電話番号を削除した際に出すメッセージ*/
-	public static final String DELETE = "さんを削除しました。";
+	/**更新成功メッセージ*/
+	public static final String SUCCESS_UPDATE = "更新成功";
 
 }
