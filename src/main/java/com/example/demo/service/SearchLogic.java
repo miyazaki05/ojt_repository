@@ -39,7 +39,7 @@ public class SearchLogic {
 			return;
 		}
 		//検索結果表示画面に検索キーワードを表示する
-		if (keyword != null) {
+		if (keyword != null && keyword != "") {
 			mav.addObject("searchkeyword", keyword + Message.SEARCH_KEYWORD);
 		}
 		List<SearchResultForm> searchList = new ArrayList<>();
