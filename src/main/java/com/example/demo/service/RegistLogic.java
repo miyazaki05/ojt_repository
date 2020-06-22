@@ -27,7 +27,7 @@ public class RegistLogic {
 		}
 
 		//登録画面の入力チェック
-		if (InputCheck.phoneBookCheck(name, phoneNumber, mav)) {
+		if (InputCheck.isValid(name, phoneNumber, mav)) {
 			mav.addObject("nameMessage", Message.SUCCESS_REGIST);
 			phoneBookRepository.regist(name, phoneNumber);
 		}

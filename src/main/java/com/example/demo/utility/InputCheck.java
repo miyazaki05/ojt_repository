@@ -18,48 +18,43 @@ public class InputCheck {
 	 * @param phoneBookList
 	 * @return エラーありならtrue、なしならfalse
 	 * */
-	public static boolean phoneBookCheck(String inputName, String inputPhoneNumber, ModelAndView mav) {
+	public static boolean isValid(String inputName, String inputPhoneNumber, ModelAndView mav) {
 
-		boolean checkFlg = true;
+		boolean isValidInputed = true;
 
 		if (inputName.equals("") && inputPhoneNumber.equals("")) {
 			mav.addObject("nameMessage", Message.NAME_EMPTY);
 			mav.addObject("numberMessage", Message.PHONENUMBER_EMPTY);
-			return !checkFlg;
-		}
-
-		if (inputName.equals("")) {
-			mav.addObject("nameMessage", Message.NAME_EMPTY);
-			return !checkFlg;
-		}
-
-		if (inputPhoneNumber.equals("")) {
-			mav.addObject("numberMessage", Message.PHONENUMBER_EMPTY);
-			return !checkFlg;
+			return !isValidInputed;
 		}
 
 		if (inputName.length() > 20 && !(inputPhoneNumber.length() == 10 || inputPhoneNumber.length() == 11)) {
 			mav.addObject("nameMessage", Message.NAME_LIMIT);
 			mav.addObject("numberMessage", Message.PHONENUMBER_LIMIT);
-			return !checkFlg;
+			return !isValidInputed;
 		}
 
-		if (inputName.length() > 20) {
+		if (inputName.equals("")) {
+			mav.addObject("nameMessage", Message.NAME_EMPTY);
+			return !isValidInputed;
+		}else if (inputName.length() > 20) {
 			mav.addObject("nameMessage", Message.NAME_LIMIT);
-			return !checkFlg;
+			return !isValidInputed;
 		}
 
-		if (!(inputPhoneNumber.length() == 10 || inputPhoneNumber.length() == 11)) {
+
+		if (inputPhoneNumber.equals("")) {
+			mav.addObject("numberMessage", Message.PHONENUMBER_EMPTY);
+			return !isValidInputed;
+		}else if (!(inputPhoneNumber.length() == 10 || inputPhoneNumber.length() == 11)) {
 			mav.addObject("numberMessage", Message.PHONENUMBER_LIMIT);
-			return !checkFlg;
-		}
-
-		if (!Pattern.matches("^[0-9]*$", inputPhoneNumber)) {
+			return !isValidInputed;
+		}else if (!Pattern.matches("^[0-9]*$", inputPhoneNumber)) {
 			mav.addObject("numberMessage", Message.SIZE_CHECK);
-			return !checkFlg;
+			return !isValidInputed;
 		}
 
-		return checkFlg;
+		return isValidInputed;
 	}
 
 }

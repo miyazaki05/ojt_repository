@@ -45,9 +45,9 @@ public class SearchLogic {
 		List<SearchResultForm> searchList = new ArrayList<>();
 		if (keyword == null) {
 			phoneBookList = phoneBookRepository.findAll();
-		} else if (keyword.equals("")) {
+		} else if (("").equals(keyword)) {
 			phoneBookList = phoneBookRepository.findAll();
-		} else if (!keyword.equals("")) {
+		} else {
 			phoneBookList = phoneBookRepository.findResult(keyword);
 		}
 
@@ -57,6 +57,9 @@ public class SearchLogic {
 		int pageNum = 0;
 		if (phoneBookList != null && !phoneBookList.isEmpty()) {
 			for (int i = 0; i < 15; i++) {
+				if(phoneBookList.size() < 15) {
+					break;
+				}
 				idCounter++;
 				PhoneBookEntity entity = phoneBookList.get(i);
 				SearchResultForm sf = new SearchResultForm();
@@ -86,13 +89,15 @@ public class SearchLogic {
 		List<PhoneBookEntity> phoneBookList = (List<PhoneBookEntity>) session.getAttribute("phoneBookList");
 
 		//最終ページで「次へ」ボタンを押下した際は常に最終ページを表示するようにする
-		if (phoneBookList.size() - (15 * pageNum) > 0) {
+
+		if (phoneBookList.size() - (15 * pageNum) > 0 && phoneBookList != null) {
 			pageNum++;
 		}
 
+
 		List<SearchResultForm> searchList = new ArrayList<>();
 		int firstDataIndex = 15 * (pageNum - 1);//各ページの最初のデータのインデックスを格納する変数
-		int tryCnt = firstDataIndex + 15;
+		int tryCnt = firstDataIndex + 15;//試行回数、1ページ当たりのデータ件数が15件なので+15
 		int idCounter = pageNum * 15 - 15;//ページ番号に応じてそのページの最初のデータのNoに対応させる
 		if (phoneBookList != null) {
 
@@ -131,6 +136,7 @@ public class SearchLogic {
 			previousPage = 1;
 		}
 
+		//セッションから指定されたページ番号のリストを取得
 		mav.addObject("searchList", (List<SearchResultForm>) session.getAttribute("list_page" + previousPage));
 
 		mav.addObject("pageNum", previousPage);

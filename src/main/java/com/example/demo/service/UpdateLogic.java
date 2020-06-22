@@ -30,7 +30,7 @@ public class UpdateLogic {
 		}
 
 		//更新画面での入力チェック
-		if (InputCheck.phoneBookCheck(name, phoneNumber, mav)) {
+		if (InputCheck.isValid(name, phoneNumber, mav)) {
 			mav.addObject("nameMessage", Message.SUCCESS_UPDATE);
 			phoneBookRepository.update(name, phoneNumber, id);
 		}
