@@ -15,13 +15,13 @@ import com.example.demo.entity.PhoneBookEntity;
 public interface PhoneBookRepository extends JpaRepository<PhoneBookEntity, Long> {
 
 	/**検索SQL*/
-	@Query(value = "SELECT p.account_id, p.name, p.phone_number FROM phonebook p", nativeQuery = true)
+	@Query(value = "SELECT p.account_id, p.name, p.phone_number FROM phonebook p ORDER BY p.account_id", nativeQuery = true)
 	public List<PhoneBookEntity> findAll();
 
-	@Query(value = "SELECT p.account_id, p.name, p.phone_number FROM phonebook p where p.name = :keyword", nativeQuery = true)
+	@Query(value = "SELECT p.account_id, p.name, p.phone_number FROM phonebook p where p.name = :keyword ORDER BY p.account_id", nativeQuery = true)
 	public List<PhoneBookEntity> findResult(@Param("keyword") String keyword);
 
-	@Query(value = "SELECT p.account_id FROM phonebook p where p.name = :name AND p.phone_number = :phoneNumber", nativeQuery = true)
+	@Query(value = "SELECT p.account_id FROM phonebook p where p.name = :name AND p.phone_number = :phoneNumber ORDER BY p.account_id", nativeQuery = true)
 	public int findId(@Param("name") String name, @Param("phoneNumber") String phoneNumber);
 
 	/**削除SQL*/

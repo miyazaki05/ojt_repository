@@ -25,11 +25,34 @@ public class PhoneBookController {
 		return search(new SearchForm(), mav);
 	}
 
-	/**検索ロジックを呼び出して検索ページへ遷移*/
+	/**検索ロジックを呼び出して検索ページへ遷移
+	 * @param pageNum
+	 **/
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
 	public ModelAndView search(SearchForm input, ModelAndView mav) {
 
 		search.execute(input, mav);
+
+		return mav;
+	}
+
+	/**次のページへ*/
+	@RequestMapping(value = "/searchnext", method = RequestMethod.POST)
+	public ModelAndView nextpaging(ModelAndView mav, @RequestParam(value = "pageNum", required = true) int pageNum) {
+
+		search.nextpaging(pageNum, mav);
+		return mav;
+	}
+
+	/**前のページへ*/
+	@RequestMapping(value = "/searchprevious", method = RequestMethod.POST)
+	public ModelAndView previouspaging(ModelAndView mav,
+			@RequestParam(value = "pageNum", required = true) int pageNum) {
+
+
+//		int	previousPage = pageNum - 1;
+
+		search.previouspaging(pageNum, mav);
 
 		return mav;
 	}
@@ -41,14 +64,14 @@ public class PhoneBookController {
 	@RequestMapping(value = "/regist", method = RequestMethod.GET)
 
 	public ModelAndView registInit(ModelAndView mav) {
-		return regist(new InputedForm(),mav);
+		return regist(new InputedForm(), mav);
 
 	}
 
 	@RequestMapping(value = "/registnew", method = RequestMethod.POST)
 
 	public ModelAndView regist(InputedForm input, ModelAndView mav) {
-		regist.execute(input,mav);
+		regist.execute(input, mav);
 		return mav;
 	}
 

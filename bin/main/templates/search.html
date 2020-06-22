@@ -24,8 +24,9 @@
 		<th class="delBtn">削除</th>
 	</tr>
 
-	<tr th:each="phoneBook, stat :${searchList}">
-		<td th:text="${stat.count}"></td>
+
+	<tr th:each="phoneBook:${searchList}">
+		<td th:text="${phoneBook.resultId}"></td>
 		<td th:text="${phoneBook.name}"></td>
 		<td th:text="${phoneBook.phoneNumber}"></td>
 		<td>
@@ -50,5 +51,14 @@
 		</td>
 	</tr>
 </table>
+		<form method="post"action="/searchprevious">
+			<input type="hidden"name="pageNum"th:value="${pageNum}">
+			<input type="submit" value="前へ" />
+		</form>
+
+		<form method="post"action="/searchnext">
+			<input type="hidden"name="pageNum"th:value="${pageNum}">
+			<input type="submit" value="次へ" />
+		</form>
 </body>
 </html>

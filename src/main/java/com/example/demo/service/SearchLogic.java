@@ -24,7 +24,10 @@ public class SearchLogic {
 	@Autowired
 	private PhoneBookRepository phoneBookRepository;
 
-	/**入力された名前と電話帳リストにある名前を比較して合致するものをListに格納するメソッド*/
+	static int IDCOUNTER = 0;
+
+	/**入力された名前と電話帳リストにある名前を比較して合致するものをListに格納するメソッド
+	 **/
 	public void execute(SearchForm input, ModelAndView mav) {
 		List<PhoneBookEntity> phoneBookList = null;
 		String keyword = input.getKeyword(); //入力された名前を取得
@@ -39,33 +42,97 @@ public class SearchLogic {
 		} else if (!keyword.equals("")) {
 			phoneBookList = phoneBookRepository.findResult(keyword);
 		}
+		SearchLogic.searchMsg(phoneBookList, keyword, mav);
 		session.setAttribute("phoneBookList", phoneBookList);
-		if (phoneBookList != null) {
-			for (int i = 0; i < phoneBookList.size(); i++) {
+
+		int idCounter = 0;
+		int pageNum = 0;
+		if (phoneBookList != null && !phoneBookList.isEmpty()) {
+			for (int i = 0; i < 15; i++) {
+				idCounter++;
 				PhoneBookEntity entity = phoneBookList.get(i);
 				SearchResultForm sf = new SearchResultForm();
+				sf.setResultId(idCounter);
 				sf.setId(entity.getId());
 				sf.setName(entity.getName());
 				sf.setPhoneNumber(entity.getPhoneNumber());
 				searchList.add(sf);
 			}
 		}
+
+
+
 		mav.addObject("searchList", searchList);
+		pageNum++;
+		mav.addObject("pageNum", pageNum);
+		session.setAttribute("list_page" + pageNum, searchList);
 		mav.setViewName("search");
-		SearchLogic.searchMsg(searchList, keyword, mav);
+
 	}
 
-	private static void searchMsg(List<SearchResultForm> searchList, String inputName, ModelAndView mav) {
+	public void nextpaging(int pageNum, ModelAndView mav) {
+
+		List<PhoneBookEntity> phoneBookList = (List<PhoneBookEntity>) session.getAttribute("phoneBookList");
+
+		if (phoneBookList.size() - (15 * pageNum) > 0) {
+			pageNum++;
+		}
+
+		List<SearchResultForm> searchList = new ArrayList<>();
+		int firstDataIndex = 15 * (pageNum - 1);
+		int tryCnt = firstDataIndex + 15;
+		int idCounter = pageNum*15-15;
+		if (phoneBookList != null) {
+
+			for (int i = firstDataIndex; i < tryCnt; i++) {
+				if (i == phoneBookList.size()) {
+					break;
+				}
+				idCounter++;
+				PhoneBookEntity entity = phoneBookList.get(i);
+				SearchResultForm sf = new SearchResultForm();
+				sf.setResultId(idCounter);
+				sf.setId(entity.getId());
+				sf.setName(entity.getName());
+				sf.setPhoneNumber(entity.getPhoneNumber());
+				searchList.add(sf);
+			}
+		}
+
+		mav.addObject("searchList", searchList);
+
+		mav.addObject("pageNum", pageNum);
+		session.setAttribute("list_page" + pageNum, searchList);
+		mav.setViewName("search");
+	}
+
+	public void previouspaging(int pageNum, ModelAndView mav) {
+
+		int previousPage = pageNum - 1;
+
+		if(previousPage < 1) {
+			previousPage = 1;
+		}
+
+		mav.addObject("searchList", (List<SearchResultForm>) session.getAttribute("list_page" + previousPage));
+
+		mav.addObject("pageNum", previousPage);
+
+		mav.setViewName("search");
+
+	}
+
+	private static void searchMsg(List<PhoneBookEntity> phoneBookList, String inputName, ModelAndView mav) {
 		if (inputName == null) {
 			return;
 		}
 
 		if (inputName.equals("")) {
 			mav.addObject("msg", Message.SEARCH_EMPTY);
-		} else if (searchList.size() == 0) {
+		} else if (phoneBookList.size() == 0) {
 			mav.addObject("msg", Message.SEARCH_NOT_HIT);
 		} else {
-			mav.addObject("msg", searchList.size() + Message.SEARCH_HIT_COUNT);
+			mav.addObject("msg",phoneBookList.size()  + Message.SEARCH_HIT_COUNT);
 		}
 	}
 

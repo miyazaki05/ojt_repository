@@ -22,7 +22,7 @@ public class RegistLogic {
 		}
 
 		if (InputCheck.phoneBookCheck(name, phoneNumber, mav)) {
-			mav.addObject("hikitsugiParam", Message.SUCCESS_REGIST);
+			mav.addObject("nameMessage", Message.SUCCESS_REGIST);
 			phoneBookRepository.regist(name, phoneNumber);
 		}
 

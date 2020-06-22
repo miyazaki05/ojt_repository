@@ -2,17 +2,6 @@ package com.example.demo.service;
 
 /**対応したメッセージを定義したクラス*/
 public class Message {
-	/**入力したパスワードが空の際に出すメッセージ*/
-	public static final String LOGIN_EMPTY = "名前、もしくはパスワードを入力してください。";
-
-	/**ログインに失敗した際に出すメッセージ*/
-	public static final String LOGIN_FAILURE = "ログインに失敗しました。";
-
-	/**ログインに失敗した際に出すメッセージ*/
-	public static final String LOGIN_SUCCESS = "ログインに成功しました。";
-
-	/**保存成功の際に出すメッセージ*/
-	public static final String SAVE_SUCCESS = "保存に成功しました。";
 
 	/**検索ワードが空の際に出すメッセージ*/
 	public static final String SEARCH_EMPTY = "全件表示します。";
@@ -24,22 +13,19 @@ public class Message {
 	public static final String SEARCH_NOT_HIT = "入力された名前はありません。";
 
 	/**入力した値が空の場合に出すメッセージ*/
-	public static final String INPUT_EMPTY = "名前と電話番号の入力は必須です。";
+	public static final String NAME_EMPTY = "名前の入力は必須です。";
 
-	/**入力された名前が15文字以上だった場合に出すメッセージ*/
+	/**入力された名前が20文字以上だった場合に出すメッセージ*/
 	public static final String NAME_LIMIT = "名前は20文字以内で入力してください。";
 
+	/**入力した値が空の場合に出すメッセージ*/
+	public static final String PHONENUMBER_EMPTY = "電話番号の入力は必須です。";
+
 	/**入力された電話番号が不正な場合に出すメッセージ*/
-	public static final String INPUT_LIMIT = "名前は20文字、電話番号は11文字以内です。";
+	public static final String PHONENUMBER_LIMIT = "電話番号は11文字、もしくは10文字で入力してください。";
 
-	/**入力された電話番号が重複している場合に出すメッセージ*/
-	public static final String PHONENUMBER_DOUBLE = "電話番号が重複しています。";
-
-	/**名前とパスワードが入力されていない場合に出すメッセージ*/
-	public static final String INPUT_ACCOUNT_EMPTY = "名前またはパスワードを入力されていません。";
-
-	/**入力された名前とパスワードがすでに使われている場合に出すメッセージ*/
-	public static final String INPUT_ACCOUNT_USED = "入力された名前とパスワードの組み合わせはすでに使われています。";
+	/**入力された電話番号が全角の場合に出すメッセージ*/
+	public static final String SIZE_CHECK = "電話番号は半角数字のみ有効です。";
 
 	/**アカウント登録や変更が正常に行われた際に出すメッセージ*/
 	public static final String SUCCESS_REGIST = "登録成功";

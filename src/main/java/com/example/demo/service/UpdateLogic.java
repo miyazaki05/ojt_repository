@@ -25,10 +25,13 @@ public class UpdateLogic {
 		}
 
 		if (InputCheck.phoneBookCheck(name, phoneNumber, mav)) {
-			mav.addObject("hikitsugiParam", Message.SUCCESS_UPDATE);
+			mav.addObject("nameMessage", Message.SUCCESS_UPDATE);
 			phoneBookRepository.update(name, phoneNumber, id);
 		}
 
+		mav.addObject("id", id);
+		mav.addObject("name", name);
+		mav.addObject("phoneNumber", phoneNumber);
 		mav.setViewName("update");
 
 	}

@@ -6,6 +6,15 @@ public class SearchResultForm {
 	/**検索で一致した電話番号*/
 	private String phoneNumber;
 	private int id;
+	private int resultId;
+
+	public int getResultId() {
+		return resultId;
+	}
+
+	public void setResultId(int resultId) {
+		this.resultId = resultId;
+	}
 
 	public int getId() {
 		return id;

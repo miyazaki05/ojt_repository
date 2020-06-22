@@ -13,6 +13,16 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "phonebook")
 public class PhoneBookEntity {
+
+//	private int resultId;
+//	public int getResultId() {
+//		return resultId;
+//	}
+//
+//	public void setResultId(int resultId) {
+//		this.resultId = resultId;
+//	}
+
 	/**
 	 * ID
 	 */

@@ -1,5 +1,7 @@
 package com.example.demo.utility;
 
+import java.util.regex.Pattern;
+
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.service.Message;
@@ -20,15 +22,44 @@ public class InputCheck {
 
 		boolean checkFlg = true;
 
-		if (inputName.equals("") || inputPhoneNumber.equals("")) {
-			mav.addObject("hikitsugiParam", Message.INPUT_EMPTY);
-			checkFlg = false;
+		if (inputName.equals("") && inputPhoneNumber.equals("")) {
+			mav.addObject("nameMessage", Message.NAME_EMPTY);
+			mav.addObject("numberMessage", Message.PHONENUMBER_EMPTY);
+			return !checkFlg;
 		}
 
-		if (inputName.length() > 21 || inputPhoneNumber.length() > 11) {
-			mav.addObject("hikitsugiParam", Message.INPUT_LIMIT);
-			checkFlg = false;
+		if (inputName.equals("")) {
+			mav.addObject("nameMessage", Message.NAME_EMPTY);
+			return !checkFlg;
 		}
+
+		if (inputPhoneNumber.equals("")) {
+			mav.addObject("numberMessage", Message.PHONENUMBER_EMPTY);
+			return !checkFlg;
+		}
+
+		if (inputName.length() > 20 && !(inputPhoneNumber.length() == 10 || inputPhoneNumber.length() == 11)) {
+			mav.addObject("nameMessage", Message.NAME_LIMIT);
+			mav.addObject("numberMessage", Message.PHONENUMBER_LIMIT);
+			return !checkFlg;
+		}
+
+		if (inputName.length() > 20) {
+			mav.addObject("nameMessage", Message.NAME_LIMIT);
+			return !checkFlg;
+		}
+
+		if (!(inputPhoneNumber.length() == 10 || inputPhoneNumber.length() == 11)) {
+			mav.addObject("numberMessage", Message.PHONENUMBER_LIMIT);
+			return !checkFlg;
+		}
+
+		if (!Pattern.matches("^[0-9]*$", inputPhoneNumber)) {
+			mav.addObject("numberMessage", Message.SIZE_CHECK);
+			return !checkFlg;
+		}
+
 		return checkFlg;
 	}
+
 }
