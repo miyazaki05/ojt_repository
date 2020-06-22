@@ -14,16 +14,22 @@ public class UpdateLogic {
 	@Autowired
 	private PhoneBookRepository phoneBookRepository;
 
+	/**更新処理を行う
+	 * @param input
+	 * @param mav
+	 */
 	public void execute(InputedForm input, ModelAndView mav) {
 
 		String name = input.getName();
 		String phoneNumber = input.getPhoneNumber();
 		int id = input.getId();
 
+		//初期表示の際はフィールドがnullになるため、処理を終わらせる
 		if (name == null || phoneNumber == null) {
 			return;
 		}
 
+		//更新画面での入力チェック
 		if (InputCheck.phoneBookCheck(name, phoneNumber, mav)) {
 			mav.addObject("nameMessage", Message.SUCCESS_UPDATE);
 			phoneBookRepository.update(name, phoneNumber, id);

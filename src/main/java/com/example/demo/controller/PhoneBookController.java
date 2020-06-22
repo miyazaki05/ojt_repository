@@ -25,9 +25,7 @@ public class PhoneBookController {
 		return search(new SearchForm(), mav);
 	}
 
-	/**検索ロジックを呼び出して検索ページへ遷移
-	 * @param pageNum
-	 **/
+	/**検索ロジックを呼び出して検索ページへ遷移*/
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
 	public ModelAndView search(SearchForm input, ModelAndView mav) {
 
@@ -62,14 +60,13 @@ public class PhoneBookController {
 
 	/**登録画面を表示*/
 	@RequestMapping(value = "/regist", method = RequestMethod.GET)
-
 	public ModelAndView registInit(ModelAndView mav) {
 		return regist(new InputedForm(), mav);
 
 	}
 
+	/**登録処理を行う*/
 	@RequestMapping(value = "/registnew", method = RequestMethod.POST)
-
 	public ModelAndView regist(InputedForm input, ModelAndView mav) {
 		regist.execute(input, mav);
 		return mav;
@@ -92,8 +89,8 @@ public class PhoneBookController {
 
 	}
 
+	/**更新処理を行う*/
 	@RequestMapping(value = "/updatenew", method = RequestMethod.POST)
-
 	public ModelAndView update(InputedForm input, ModelAndView mav) {
 
 		update.execute(input, mav);
@@ -103,6 +100,7 @@ public class PhoneBookController {
 	@Autowired
 	private DeleteLogic delete;
 
+	/**削除処理を行う*/
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public ModelAndView deletectl(ModelAndView mav, @RequestParam(value = "id", required = true) int id) {
 

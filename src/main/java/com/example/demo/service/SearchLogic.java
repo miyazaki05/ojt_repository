@@ -27,12 +27,20 @@ public class SearchLogic {
 	static int IDCOUNTER = 0;
 
 	/**入力された名前と電話帳リストにある名前を比較して合致するものをListに格納するメソッド
-	 **/
+	 * @param input
+	 * @param mav
+	 * */
 	public void execute(SearchForm input, ModelAndView mav) {
 		List<PhoneBookEntity> phoneBookList = null;
-		String keyword = input.getKeyword(); //入力された名前を取得
+		//入力された名前を取得
+		String keyword = input.getKeyword();
+		//入力チェックを行う
 		if (!SearchLogic.keywordCheck(keyword, mav)) {
 			return;
+		}
+		//検索結果表示画面に検索キーワードを表示する
+		if (keyword != null) {
+			mav.addObject("searchkeyword", keyword + Message.SEARCH_KEYWORD);
 		}
 		List<SearchResultForm> searchList = new ArrayList<>();
 		if (keyword == null) {
@@ -42,10 +50,10 @@ public class SearchLogic {
 		} else if (!keyword.equals("")) {
 			phoneBookList = phoneBookRepository.findResult(keyword);
 		}
-		SearchLogic.searchMsg(phoneBookList, keyword, mav);
+
 		session.setAttribute("phoneBookList", phoneBookList);
 
-		int idCounter = 0;
+		int idCounter = 0;//画面に表示するデータNoのための変数
 		int pageNum = 0;
 		if (phoneBookList != null && !phoneBookList.isEmpty()) {
 			for (int i = 0; i < 15; i++) {
@@ -60,28 +68,32 @@ public class SearchLogic {
 			}
 		}
 
-
-
 		mav.addObject("searchList", searchList);
 		pageNum++;
 		mav.addObject("pageNum", pageNum);
 		session.setAttribute("list_page" + pageNum, searchList);
+		SearchLogic.searchMsg(phoneBookList, keyword, mav);
 		mav.setViewName("search");
 
 	}
 
+	/**「次へ」ボタン押下時の処理
+	 * @param pageNum
+	 * @param mav
+	 */
 	public void nextpaging(int pageNum, ModelAndView mav) {
 
 		List<PhoneBookEntity> phoneBookList = (List<PhoneBookEntity>) session.getAttribute("phoneBookList");
 
+		//最終ページで「次へ」ボタンを押下した際は常に最終ページを表示するようにする
 		if (phoneBookList.size() - (15 * pageNum) > 0) {
 			pageNum++;
 		}
 
 		List<SearchResultForm> searchList = new ArrayList<>();
-		int firstDataIndex = 15 * (pageNum - 1);
+		int firstDataIndex = 15 * (pageNum - 1);//各ページの最初のデータのインデックスを格納する変数
 		int tryCnt = firstDataIndex + 15;
-		int idCounter = pageNum*15-15;
+		int idCounter = pageNum * 15 - 15;//ページ番号に応じてそのページの最初のデータのNoに対応させる
 		if (phoneBookList != null) {
 
 			for (int i = firstDataIndex; i < tryCnt; i++) {
@@ -106,11 +118,16 @@ public class SearchLogic {
 		mav.setViewName("search");
 	}
 
+	/**「前へ」ボタン押下時の処理
+	 * @param pageNum
+	 * @param mav
+	 */
 	public void previouspaging(int pageNum, ModelAndView mav) {
 
 		int previousPage = pageNum - 1;
 
-		if(previousPage < 1) {
+		//最初のページでの「前へ」ボタン押下時は常に最初のページを表示させる
+		if (previousPage < 1) {
 			previousPage = 1;
 		}
 
@@ -122,6 +139,11 @@ public class SearchLogic {
 
 	}
 
+	/**画面に表示するメッセージをセットする
+	 * @param phoneBookList
+	 * @param inputName
+	 * @param mav
+	 */
 	private static void searchMsg(List<PhoneBookEntity> phoneBookList, String inputName, ModelAndView mav) {
 		if (inputName == null) {
 			return;
@@ -132,10 +154,15 @@ public class SearchLogic {
 		} else if (phoneBookList.size() == 0) {
 			mav.addObject("msg", Message.SEARCH_NOT_HIT);
 		} else {
-			mav.addObject("msg",phoneBookList.size()  + Message.SEARCH_HIT_COUNT);
+			mav.addObject("msg", phoneBookList.size() + Message.SEARCH_HIT_COUNT);
 		}
 	}
 
+	/**検索画面における入力チェックを行う
+	 * @param keyword
+	 * @param mav
+	 * @return 入力チェック成功ならtrue、失敗ならfalse
+	 */
 	private static boolean keywordCheck(String keyword, ModelAndView mav) {
 		if (keyword != null) {
 			boolean flg = true;

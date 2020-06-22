@@ -9,6 +9,8 @@
 <h1>一覧画面</h1>
 <input type="submit" value="新規" style="position: relative; right: -350px; top: 0px"onclick="location.href='./regist'"/>
 <span class="msg" th:text="${msg}"></span>
+<br>
+<span class="msg" th:text="${searchkeyword}"></span>
 <form method="post" action="/search">
 <span>名前：</span>
 	<input type="text" name="keyword" th:value="${keyword}" />

@@ -10,6 +10,9 @@ public class DeleteLogic {
 	@Autowired
 	PhoneBookRepository phonebookrepository;
 
+	/**渡されたidに従ってデータを削除する
+	 * @param id
+	 */
 	public void execute(int id) {
 		phonebookrepository.delete(id);
 	}

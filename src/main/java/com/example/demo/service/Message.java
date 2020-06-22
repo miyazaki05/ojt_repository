@@ -9,6 +9,9 @@ public class Message {
 	/**検索にヒットした際に出すメッセージ*/
 	public static final String SEARCH_HIT_COUNT = "件ヒットしました。";
 
+	/**検索に用いたキーワードを出すメッセージ*/
+	public static final String SEARCH_KEYWORD = "による検索結果";
+
 	/**検索にヒットした際に出すメッセージ*/
 	public static final String SEARCH_NOT_HIT = "入力された名前はありません。";
 
