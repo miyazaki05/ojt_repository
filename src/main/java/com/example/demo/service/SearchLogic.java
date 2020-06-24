@@ -31,15 +31,13 @@ public class SearchLogic {
 	 * @param mav
 	 * */
 	public void execute(SearchForm input, ModelAndView mav) {
+
 		List<PhoneBookEntity> phoneBookList = null;
 		//入力された名前を取得
 		String keyword = input.getKeyword();
-		//入力チェックを行う
-		if (!SearchLogic.keywordCheck(keyword, mav)) {
-			return;
-		}
+
 		//検索結果表示画面に検索キーワードを表示する
-		if (keyword != null && keyword != "") {
+		if (keyword != null && keyword != "" && !keywordCheck(keyword)) {
 			mav.addObject("searchkeyword", keyword + Message.SEARCH_KEYWORD);
 		}
 		List<SearchResultForm> searchList = new ArrayList<>();
@@ -57,7 +55,7 @@ public class SearchLogic {
 		int pageNum = 0;
 		if (phoneBookList != null && !phoneBookList.isEmpty()) {
 			for (int i = 0; i < 15; i++) {
-				if(phoneBookList.size() < 15) {
+				if (phoneBookList.size() < 15) {
 					break;
 				}
 				idCounter++;
@@ -93,7 +91,6 @@ public class SearchLogic {
 		if (phoneBookList.size() - (15 * pageNum) > 0 && phoneBookList != null) {
 			pageNum++;
 		}
-
 
 		List<SearchResultForm> searchList = new ArrayList<>();
 		int firstDataIndex = 15 * (pageNum - 1);//各ページの最初のデータのインデックスを格納する変数
@@ -157,7 +154,9 @@ public class SearchLogic {
 
 		if (inputName.equals("")) {
 			mav.addObject("msg", Message.SEARCH_EMPTY);
-		} else if (phoneBookList.size() == 0) {
+		} else if (keywordCheck(inputName)) {//入力チェック
+			mav.addObject("msg", Message.NAME_LIMIT);
+		}else if(phoneBookList.size() == 0) {
 			mav.addObject("msg", Message.SEARCH_NOT_HIT);
 		} else {
 			mav.addObject("msg", phoneBookList.size() + Message.SEARCH_HIT_COUNT);
@@ -166,20 +165,10 @@ public class SearchLogic {
 
 	/**検索画面における入力チェックを行う
 	 * @param keyword
-	 * @param mav
-	 * @return 入力チェック成功ならtrue、失敗ならfalse
 	 */
-	private static boolean keywordCheck(String keyword, ModelAndView mav) {
-		if (keyword != null) {
-			boolean flg = true;
+	private static boolean keywordCheck(String keyword) {
 
-			if (keyword.length() > 20) {
-				mav.addObject("msg", Message.NAME_LIMIT);
-				flg = false;
-			}
-			return flg;
-		} else {
-			return true;
-		}
+		return keyword.length() > 20;
+
 	}
 }
