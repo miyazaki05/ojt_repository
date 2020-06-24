@@ -53,13 +53,6 @@ public class ValidationUtility {
 			mav.addObject("numberMessage", Message.SIZE_CHECK);
 			isValidPhoneNumber = false;
 		}
-//		}else if (!Pattern.matches("^[0-9]*$", inputPhoneNumber) && !(inputPhoneNumber.length() == 10 || inputPhoneNumber.length() == 11)) {
-//			mav.addObject("nameMessage",Message.PHONENUMBER_LIMIT);
-//			mav.addObject("numberMessage", Message.SIZE_CHECK);
-//			isValidPhoneNumber = false;
-//		}else if(!Pattern.matches("^[0-9]*$", inputPhoneNumber) && (inputPhoneNumber.length() == 10 || inputPhoneNumber.length() == 11)){
-//			mav.addObject("numberMessage", Message.SIZE_CHECK);
-//		}
 
 		return isValidPhoneNumber;
 	}

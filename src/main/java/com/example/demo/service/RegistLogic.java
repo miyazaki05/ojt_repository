@@ -27,6 +27,12 @@ public class RegistLogic {
 			return;
 		}
 
+//		//名前、番号共に空白を含む場合はここで除去する
+//		name.trim();
+//		name.replaceAll("　", " ").replaceAll(" ", "");
+//		phoneNumber.trim();
+//		phoneNumber.replaceAll("　", " ").replaceAll(" ", "");
+
 		boolean isCorrectOfName = ValidationUtility.isCorrentName(name,mav);
 		boolean isCorrectOfPhoneNumber = ValidationUtility.isCorrentPhoneNumber(phoneNumber,mav);
 		//登録画面の入力チェック

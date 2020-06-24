@@ -53,14 +53,22 @@
 		</td>
 	</tr>
 </table>
-		<form method="post"action="/searchprevious">
-			<input type="hidden"name="pageNum"th:value="${pageNum}">
-			<input type="submit" value="前へ" />
-		</form>
 
-		<form method="post"action="/searchnext">
-			<input type="hidden"name="pageNum"th:value="${pageNum}">
-			<input type="submit" value="次へ" />
-		</form>
+<table id="table" border="1" style="border-collapse: collapse">
+	<tr>
+		<td>
+			<form method="post"action="/searchprevious">
+				<input type="hidden"name="pageNum"th:value="${pageNum}">
+				<input type="submit" value="前へ" />
+			</form>
+		</td>
+		<td>
+			<form method="post"action="/searchnext">
+				<input type="hidden"name="pageNum"th:value="${pageNum}">
+				<input type="submit" value="次へ" />
+			</form>
+		</td>
+	</tr>
+</table>
 </body>
 </html>
