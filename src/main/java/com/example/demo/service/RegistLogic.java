@@ -6,7 +6,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.dao.PhoneBookRepository;
 import com.example.demo.form.InputedForm;
-import com.example.demo.utility.InputCheck;
+import com.example.demo.utility.ValidationUtility;
 
 @Service
 public class RegistLogic {
@@ -23,14 +23,21 @@ public class RegistLogic {
 
 		//登録画面初期表示の際はフィールドがnullのため、処理を終わらせる
 		if (name == null || phoneNumber == null) {
+			mav.setViewName("regist");
 			return;
 		}
 
+		boolean isCorrectOfName = ValidationUtility.isCorrentName(name,mav);
+		boolean isCorrectOfPhoneNumber = ValidationUtility.isCorrentPhoneNumber(phoneNumber,mav);
 		//登録画面の入力チェック
-		if (InputCheck.isValid(name, phoneNumber, mav)) {
-			mav.addObject("nameMessage", Message.SUCCESS_REGIST);
-			phoneBookRepository.regist(name, phoneNumber);
+		if (!isCorrectOfName || !isCorrectOfPhoneNumber) {
+			mav.setViewName("regist");
+			return;
 		}
+
+
+		phoneBookRepository.regist(name, phoneNumber);
+		mav.addObject("nameMessage", Message.SUCCESS_REGIST);
 
 		mav.setViewName("regist");
 

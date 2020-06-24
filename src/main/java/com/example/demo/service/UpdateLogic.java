@@ -6,7 +6,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.dao.PhoneBookRepository;
 import com.example.demo.form.InputedForm;
-import com.example.demo.utility.InputCheck;
+import com.example.demo.utility.ValidationUtility;
 
 @Service
 public class UpdateLogic {
@@ -26,14 +26,24 @@ public class UpdateLogic {
 
 		//初期表示の際はフィールドがnullになるため、処理を終わらせる
 		if (name == null || phoneNumber == null) {
+			mav.setViewName("update");
 			return;
 		}
 
 		//更新画面での入力チェック
-		if (InputCheck.isValid(name, phoneNumber, mav)) {
-			mav.addObject("nameMessage", Message.SUCCESS_UPDATE);
-			phoneBookRepository.update(name, phoneNumber, id);
+		boolean isCorrectOfName = ValidationUtility.isCorrentName(name,mav);
+		boolean isCorrectOfPhoneNumber = ValidationUtility.isCorrentPhoneNumber(phoneNumber,mav);
+		if (!isCorrectOfName || !isCorrectOfPhoneNumber) {
+			mav.addObject("id", id);
+			mav.addObject("name", name);
+			mav.addObject("phoneNumber", phoneNumber);
+			mav.setViewName("update");
+			return;
 		}
+
+
+		mav.addObject("nameMessage", Message.SUCCESS_UPDATE);
+		phoneBookRepository.update(name, phoneNumber, id);
 
 		mav.addObject("id", id);
 		mav.addObject("name", name);
