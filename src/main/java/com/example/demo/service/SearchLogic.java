@@ -71,6 +71,9 @@ public class SearchLogic {
 			}
 		}
 
+		if(keyword != null) {
+			mav.addObject("isClicked", isClicked);
+		}
 		mav.addObject("searchList", searchList);
 		pageNum++;
 		mav.addObject("pageNum", pageNum);
@@ -129,6 +132,7 @@ public class SearchLogic {
 		if(isClicked) {
 			SearchLogic.searchMsg(phoneBookList, keyword, mav);
 		}
+		mav.addObject("isClicked", isClicked);
 		mav.setViewName("search");
 	}
 
@@ -160,6 +164,7 @@ public class SearchLogic {
 		if(isClicked) {
 			SearchLogic.searchMsg(phoneBookList, keyword, mav);
 		}
+		mav.addObject("isClicked", isClicked);
 		mav.setViewName("search");
 
 	}

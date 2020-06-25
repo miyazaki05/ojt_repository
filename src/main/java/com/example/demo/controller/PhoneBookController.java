@@ -24,6 +24,7 @@ public class PhoneBookController {
 	public ModelAndView searchInit(ModelAndView mav) {
 		search(new SearchForm(), mav);
 		isClicked = false;
+		mav.addObject("isClicked", isClicked);
 		return mav;
 	}
 

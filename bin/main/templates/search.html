@@ -6,14 +6,22 @@
 <title>電話帳システム</title>
 </head>
 <body>
+<div th:if="${!isClicked}">
 <h1>一覧画面</h1>
+</div>
+<div th:if="${isClicked}">
+<h1>検索結果表示画面</h1>
+</div>
 <input type="submit" value="新規" style="position: relative; right: -350px; top: 0px"onclick="location.href='./regist'"/>
+<div th:if="${isClicked}">
+<input type="submit" value="戻る" style="position: relative; left: -350px; top: 0px"onclick="location.href='./'"/>
+</div>
 <span class="msg" th:text="${msg}"></span>
 <br>
 <span class="msg" th:text="${searchkeyword}"></span>
 <form method="post" action="/search">
 <span>名前：</span>
-	<input type="text" name="keyword" th:value="${keyword}"/>]
+	<input type="text" name="keyword" th:value="${keyword}"/>
 	<input type="submit" value="検索" />
 </form>
 
