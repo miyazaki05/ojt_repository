@@ -18,39 +18,39 @@ import com.example.demo.service.UpdateLogic;
 public class PhoneBookController {
 	@Autowired
 	private SearchLogic search;
-
+	boolean isClicked = false;
 	/**トップページを表示*/
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView searchInit(ModelAndView mav) {
-		return search(new SearchForm(), mav);
+		search(new SearchForm(), mav);
+		isClicked = false;
+		return mav;
 	}
 
 	/**検索ロジックを呼び出して検索ページへ遷移*/
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
 	public ModelAndView search(SearchForm input, ModelAndView mav) {
 
-		search.execute(input, mav);
-
+		isClicked = true;
+		search.execute(input, mav,isClicked);
 		return mav;
 	}
 
 	/**次のページへ*/
 	@RequestMapping(value = "/searchnext", method = RequestMethod.POST)
-	public ModelAndView nextpaging(ModelAndView mav, @RequestParam(value = "pageNum", required = true) int pageNum) {
+	public ModelAndView nextpaging(ModelAndView mav, @RequestParam(value = "pageNum", required = true) int pageNum,
+			SearchForm input) {
 
-		search.nextpaging(pageNum, mav);
+		search.nextpaging(pageNum, mav,input,isClicked);
 		return mav;
 	}
 
 	/**前のページへ*/
 	@RequestMapping(value = "/searchprevious", method = RequestMethod.POST)
 	public ModelAndView previouspaging(ModelAndView mav,
-			@RequestParam(value = "pageNum", required = true) int pageNum) {
+			@RequestParam(value = "pageNum", required = true) int pageNum,SearchForm input) {
 
-
-//		int	previousPage = pageNum - 1;
-
-		search.previouspaging(pageNum, mav);
+		search.previouspaging(pageNum, mav,input,isClicked);
 
 		return mav;
 	}

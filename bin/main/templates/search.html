@@ -13,7 +13,7 @@
 <span class="msg" th:text="${searchkeyword}"></span>
 <form method="post" action="/search">
 <span>名前：</span>
-	<input type="text" name="keyword" th:value="${keyword}" />
+	<input type="text" name="keyword" th:value="${keyword}"/>]
 	<input type="submit" value="検索" />
 </form>
 
@@ -59,13 +59,15 @@
 		<td>
 			<form method="post"action="/searchprevious">
 				<input type="hidden"name="pageNum"th:value="${pageNum}">
-				<input type="submit" value="前へ" />
+				<input type="hidden"name="keyword"th:value="${keyword}">
+				<input type="submit" value="◀前へ" />
 			</form>
 		</td>
 		<td>
 			<form method="post"action="/searchnext">
 				<input type="hidden"name="pageNum"th:value="${pageNum}">
-				<input type="submit" value="次へ" />
+				<input type="hidden"name="keyword"th:value="${keyword}">
+				<input type="submit" value="次へ▶" />
 			</form>
 		</td>
 	</tr>

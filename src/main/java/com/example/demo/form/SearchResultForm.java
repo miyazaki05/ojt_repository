@@ -7,6 +7,7 @@ public class SearchResultForm {
 	private String phoneNumber;
 	private int id;
 	private int resultId;
+	
 
 	public int getResultId() {
 		return resultId;
