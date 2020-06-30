@@ -45,6 +45,7 @@ public class SearchLogic {
 		List<SearchResultForm> searchList = new ArrayList<>();
 		if (keyword == null) {
 			phoneBookList = phoneBookRepository.findAll();
+			//初期表示で表示するデータがない場合はメッセージをセット
 			if(phoneBookList.isEmpty()) {
 				mav.addObject("searchkeyword",Message.NODATE);
 			}
@@ -79,9 +80,11 @@ public class SearchLogic {
 			mav.addObject("isClicked", isClicked);
 		}
 		mav.addObject("searchList", searchList);
+		//表示するデータがない場合はページ切り替えボタンは非表示にする
 		if(!phoneBookList.isEmpty()) {
 			pageNum++;
 		}
+		mav.addObject("isLast", false);
 		mav.addObject("pageNum", pageNum);
 		mav.addObject("keyword",keyword);
 		session.setAttribute("list_page" + pageNum, searchList);
@@ -100,10 +103,19 @@ public class SearchLogic {
 
 		List<PhoneBookEntity> phoneBookList = (List<PhoneBookEntity>) session.getAttribute("phoneBookList");
 		String keyword = input.getKeyword();
-		//最終ページで「次へ」ボタンを押下した際は常に最終ページを表示するようにする
+//		//最終ページで「次へ」ボタンを押下した際は常に最終ページを表示するようにする
+//
+//		if (phoneBookList.size() - (15 * pageNum) > 0 && phoneBookList != null) {
+//			pageNum++;
+//		}
+		pageNum++;
 
-		if (phoneBookList.size() - (15 * pageNum) > 0 && phoneBookList != null) {
-			pageNum++;
+		boolean isLast = false;
+		int lastPage = 0;
+		if(phoneBookList.size()%15 == 0) {
+			lastPage = phoneBookList.size()/15;
+		}else {
+			lastPage = phoneBookList.size()/15 + 1;
 		}
 
 		if (keyword != null && keyword != "" && !keywordCheck(keyword)) {
@@ -134,6 +146,10 @@ public class SearchLogic {
 
 		mav.addObject("searchList", searchList);
 		mav.addObject("keyword",keyword);
+		if(lastPage == pageNum) {
+			isLast = true;
+		}
+		mav.addObject("isLast", isLast);
 		mav.addObject("pageNum", pageNum);
 		session.setAttribute("list_page" + pageNum, searchList);
 		if(isClicked) {
@@ -158,10 +174,10 @@ public class SearchLogic {
 			mav.addObject("searchkeyword", keyword + Message.SEARCH_KEYWORD);
 		}
 
-		//最初のページでの「前へ」ボタン押下時は常に最初のページを表示させる
-		if (previousPage < 1) {
-			previousPage = 1;
-		}
+//		//最初のページでの「前へ」ボタン押下時は常に最初のページを表示させる
+//		if (previousPage < 1) {
+//			previousPage = 1;
+//		}
 
 		//セッションから指定されたページ番号のリストを取得
 		mav.addObject("searchList", (List<SearchResultForm>) session.getAttribute("list_page" + previousPage));
@@ -171,6 +187,7 @@ public class SearchLogic {
 		if(isClicked) {
 			SearchLogic.searchMsg(phoneBookList, keyword, mav);
 		}
+		mav.addObject("isLast", false);
 		mav.addObject("isClicked", isClicked);
 		mav.setViewName("search");
 

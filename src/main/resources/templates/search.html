@@ -63,14 +63,14 @@
 <div th:if="${pageNum != 0}">
 	<table id="table" border="1" style="border-collapse: collapse">
 		<tr>
-			<td>
+			<td th:if="${pageNum != 1}">
 				<form method="post"action="/searchprevious">
 					<input type="hidden"name="pageNum"th:value="${pageNum}">
 					<input type="hidden"name="keyword"th:value="${keyword}">
 					<input type="submit" value="◀前へ" >
 				</form>
 			</td>
-			<td>
+			<td th:if="${!isLast}">
 				<form method="post"action="/searchnext">
 					<input type="hidden"name="pageNum"th:value="${pageNum}">
 					<input type="hidden"name="keyword"th:value="${keyword}">
