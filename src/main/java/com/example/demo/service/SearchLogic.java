@@ -84,7 +84,11 @@ public class SearchLogic {
 		if(!phoneBookList.isEmpty()) {
 			pageNum++;
 		}
-		mav.addObject("isLast", false);
+		if(phoneBookList.size() <= 15) {
+			mav.addObject("isLast", true);
+		}else {
+			mav.addObject("isLast", false);
+		}
 		mav.addObject("pageNum", pageNum);
 		mav.addObject("keyword",keyword);
 		session.setAttribute("list_page" + pageNum, searchList);
@@ -108,6 +112,9 @@ public class SearchLogic {
 //		if (phoneBookList.size() - (15 * pageNum) > 0 && phoneBookList != null) {
 //			pageNum++;
 //		}
+		if(pageNum < 0) {
+			pageNum = 0;
+		}
 		pageNum++;
 
 		boolean isLast = false;

@@ -23,6 +23,11 @@ public class PhoneBookController {
 	/**トップページを表示*/
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView searchInit(ModelAndView mav) {
+//		isClicked = false;
+//		//検索結果表示 → 更新画面 → 一覧画面の流れ
+//		if(isClicked) {
+//			isClicked = false;
+//		}
 		search(new SearchForm(), mav);
 		isClicked = false;
 		//検索ボタンが押下されたか否かを確認するためのフラグ
