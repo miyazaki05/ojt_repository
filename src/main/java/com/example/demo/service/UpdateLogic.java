@@ -6,6 +6,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.dao.PhoneBookRepository;
 import com.example.demo.form.InputedForm;
+import com.example.demo.form.SearchForm;
 import com.example.demo.utility.ValidationUtility;
 
 @Service
@@ -13,12 +14,15 @@ public class UpdateLogic {
 
 	@Autowired
 	private PhoneBookRepository phoneBookRepository;
+	@Autowired
+	private SearchLogic searchLogic;
 
 	/**更新処理を行う
 	 * @param input
 	 * @param mav
+	 * @param pageNum
 	 */
-	public void execute(InputedForm input, ModelAndView mav) {
+	public void execute(InputedForm input, ModelAndView mav, int pageNum) {
 
 		String name = input.getName();
 		String phoneNumber = input.getPhoneNumber();
@@ -34,9 +38,13 @@ public class UpdateLogic {
 		boolean isCorrectOfName = ValidationUtility.isCorrentName(name,mav);
 		boolean isCorrectOfPhoneNumber = ValidationUtility.isCorrentPhoneNumber(phoneNumber,mav);
 		if (!isCorrectOfName || !isCorrectOfPhoneNumber) {
+			mav.addObject("pageNum",pageNum);
 			mav.addObject("id", id);
 			mav.addObject("name", name);
 			mav.addObject("phoneNumber", phoneNumber);
+			SearchForm updateName = new SearchForm();
+			updateName.setKeyword(name);
+			mav.addObject("updateName",updateName);
 			mav.setViewName("update");
 			return;
 		}
@@ -44,7 +52,11 @@ public class UpdateLogic {
 
 		mav.addObject("nameMessage", Message.SUCCESS_UPDATE);
 		phoneBookRepository.update(name, phoneNumber, id);
+//		SearchForm updateName = new SearchForm();
+//		updateName.setKeyword(name);
+		searchLogic.execute(new SearchForm(), mav, false);
 
+		mav.addObject("pageNum",pageNum);
 		mav.addObject("id", id);
 		mav.addObject("name", name);
 		mav.addObject("phoneNumber", phoneNumber);

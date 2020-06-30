@@ -45,6 +45,9 @@ public class SearchLogic {
 		List<SearchResultForm> searchList = new ArrayList<>();
 		if (keyword == null) {
 			phoneBookList = phoneBookRepository.findAll();
+			if(phoneBookList.isEmpty()) {
+				mav.addObject("searchkeyword",Message.NODATE);
+			}
 		} else if (("").equals(keyword)) {
 			phoneBookList = phoneBookRepository.findAll();
 		} else {
@@ -57,12 +60,13 @@ public class SearchLogic {
 		int pageNum = 0;
 		if (phoneBookList != null && !phoneBookList.isEmpty()) {
 			for (int i = 0; i < 15; i++) {
-				if (phoneBookList.size() < 15) {
+				if (phoneBookList.size() == i) {
 					break;
 				}
 				idCounter++;
 				PhoneBookEntity entity = phoneBookList.get(i);
 				SearchResultForm sf = new SearchResultForm();
+				sf.setPageNum(pageNum);
 				sf.setResultId(idCounter);
 				sf.setId(entity.getId());
 				sf.setName(entity.getName());
@@ -75,7 +79,9 @@ public class SearchLogic {
 			mav.addObject("isClicked", isClicked);
 		}
 		mav.addObject("searchList", searchList);
-		pageNum++;
+		if(!phoneBookList.isEmpty()) {
+			pageNum++;
+		}
 		mav.addObject("pageNum", pageNum);
 		mav.addObject("keyword",keyword);
 		session.setAttribute("list_page" + pageNum, searchList);
@@ -117,6 +123,7 @@ public class SearchLogic {
 				idCounter++;
 				PhoneBookEntity entity = phoneBookList.get(i);
 				SearchResultForm sf = new SearchResultForm();
+				sf.setPageNum(pageNum);
 				sf.setResultId(idCounter);
 				sf.setId(entity.getId());
 				sf.setName(entity.getName());

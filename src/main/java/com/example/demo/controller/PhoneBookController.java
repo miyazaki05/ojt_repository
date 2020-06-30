@@ -18,12 +18,14 @@ import com.example.demo.service.UpdateLogic;
 public class PhoneBookController {
 	@Autowired
 	private SearchLogic search;
+	//検索ボタンを押下したか否かのフラグ
 	boolean isClicked = false;
 	/**トップページを表示*/
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView searchInit(ModelAndView mav) {
 		search(new SearchForm(), mav);
 		isClicked = false;
+		//検索ボタンが押下されたか否かを確認するためのフラグ
 		mav.addObject("isClicked", isClicked);
 		return mav;
 	}
@@ -80,21 +82,24 @@ public class PhoneBookController {
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public ModelAndView updateInit(ModelAndView mav, @RequestParam(value = "name", required = true) String name,
 			@RequestParam(value = "phoneNumber", required = true) String phoneNumber,
-			@RequestParam(value = "id", required = true) int id) {
-
+			@RequestParam(value = "id", required = true) int id,
+			@RequestParam(value = "pageNum",required = true) int pageNum) {
+		int adjustPageNum = pageNum-1;
+		mav.addObject("pageNum",adjustPageNum);
 		mav.addObject("id", id);
 		mav.addObject("name", name);
 		mav.addObject("phoneNumber", phoneNumber);
 
-		return update(new InputedForm(), mav);
+		return update(new InputedForm(), mav,pageNum);
 
 	}
 
-	/**更新処理を行う*/
+	/**更新処理を行う
+	 * @param pageNum */
 	@RequestMapping(value = "/updatenew", method = RequestMethod.POST)
-	public ModelAndView update(InputedForm input, ModelAndView mav) {
+	public ModelAndView update(InputedForm input, ModelAndView mav, int pageNum) {
 
-		update.execute(input, mav);
+		update.execute(input, mav,pageNum);
 		return mav;
 	}
 
@@ -107,7 +112,7 @@ public class PhoneBookController {
 
 		delete.execute(id);
 
-		return search(new SearchForm(), mav);
+		return searchInit(mav);
 
 	}
 }

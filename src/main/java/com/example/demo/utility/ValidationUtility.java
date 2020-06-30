@@ -27,7 +27,7 @@ public class ValidationUtility {
 		boolean isValidName = true;
 
 		if (inputName.equals("") ) {
-			mav.addObject("nameMessage", Message.NAME_EMPTY);
+			mav.addObject("nameMessage", Message.INPUT_EMPTY);
 			isValidName = false;
 		}
 
@@ -44,7 +44,7 @@ public class ValidationUtility {
 		boolean isValidPhoneNumber = true;
 
 		if (inputPhoneNumber.equals("")) {
-			mav.addObject("numberMessage", Message.PHONENUMBER_EMPTY);
+			mav.addObject("nameMessage", Message.INPUT_EMPTY);
 			isValidPhoneNumber = false;
 		}else if (!(inputPhoneNumber.length() == 10 || inputPhoneNumber.length() == 11)) {
 			mav.addObject("numberMessage", Message.PHONENUMBER_LIMIT);

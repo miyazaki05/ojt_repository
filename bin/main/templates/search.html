@@ -13,9 +13,6 @@
 <h1>検索結果表示画面</h1>
 </div>
 <input type="submit" value="新規" style="position: relative; right: -350px; top: 0px"onclick="location.href='./regist'"/>
-<div th:if="${isClicked}">
-<input type="submit" value="戻る" style="position: relative; left: -350px; top: 0px"onclick="location.href='./'"/>
-</div>
 <span class="msg" th:text="${msg}"></span>
 <br>
 <span class="msg" th:text="${searchkeyword}"></span>
@@ -42,6 +39,7 @@
 		<td>
 			<form method="post" action="/update"
 				th:object="${inputForm}">
+				<input type="hidden" name="pageNum" th:value="${phoneBook.pageNum}">
 				<input type="hidden" name="id" th:value="${phoneBook.id}">
 				<input type="hidden" name="name" th:value="${phoneBook.name}">
 				<input type="hidden" name="phoneNumber"
@@ -62,23 +60,25 @@
 	</tr>
 </table>
 
-<table id="table" border="1" style="border-collapse: collapse">
-	<tr>
-		<td>
-			<form method="post"action="/searchprevious">
-				<input type="hidden"name="pageNum"th:value="${pageNum}">
-				<input type="hidden"name="keyword"th:value="${keyword}">
-				<input type="submit" value="◀前へ" />
-			</form>
-		</td>
-		<td>
-			<form method="post"action="/searchnext">
-				<input type="hidden"name="pageNum"th:value="${pageNum}">
-				<input type="hidden"name="keyword"th:value="${keyword}">
-				<input type="submit" value="次へ▶" />
-			</form>
-		</td>
-	</tr>
-</table>
+<div th:if="${pageNum != 0}">
+	<table id="table" border="1" style="border-collapse: collapse">
+		<tr>
+			<td>
+				<form method="post"action="/searchprevious">
+					<input type="hidden"name="pageNum"th:value="${pageNum}">
+					<input type="hidden"name="keyword"th:value="${keyword}">
+					<input type="submit" value="◀前へ" >
+				</form>
+			</td>
+			<td>
+				<form method="post"action="/searchnext">
+					<input type="hidden"name="pageNum"th:value="${pageNum}">
+					<input type="hidden"name="keyword"th:value="${keyword}">
+					<input type="submit" value="次へ▶" >
+				</form>
+			</td>
+		</tr>
+	</table>
+</div>
 </body>
 </html>

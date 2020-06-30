@@ -11,9 +11,14 @@
 <span class="msg" th:text="${nameMessage}"></span>
 </div>
 <span class="msg" th:text="${numberMessage}"></span>
-<input type="submit" value="戻る" style="position: relative; left: -550px; top: 0px"onclick="location.href='./'"/>
+<form method="post" action="searchnext">
+	<input type="hidden" name="pageNum" th:value="${pageNum}">
+	<input type="hidden" name="updateName" th:value="${updateName}">
+	<input type="submit" value="戻る" style="position: relative; left: -550px; top: 0px">
+</form>
 <form method="post" action="/updatenew">
 	<input type="hidden" name="id" th:value="${id}">
+	<input type="hidden" name="pageNum" th:value="${pageNum}">
 <br>
 <span>名前：</span>
 	<input type="text" name="name" th:value="${name}" />

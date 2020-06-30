@@ -7,7 +7,16 @@ public class SearchResultForm {
 	private String phoneNumber;
 	private int id;
 	private int resultId;
-	
+	private int pageNum;
+
+
+	public int getPageNum() {
+		return pageNum;
+	}
+
+	public void setPageNum(int pageNum) {
+		this.pageNum = pageNum;
+	}
 
 	public int getResultId() {
 		return resultId;
