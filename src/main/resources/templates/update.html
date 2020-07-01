@@ -12,7 +12,7 @@
 </div>
 <span class="msg" th:text="${numberMessage}"></span>
 <form method="post" action="/searchnext">
-	<input type="hidden" name="updateName" th:value="${updateName}">
+	<input type="hidden" name="notUpdate" th:value="${notUpdate}">
 	<input type="hidden" name="pageNum" th:value="${pageNum}">
 	<input type="submit" value="戻る" style="position: relative; left: -550px; top: 0px">
 </form>

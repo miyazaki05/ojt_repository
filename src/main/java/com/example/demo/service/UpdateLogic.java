@@ -21,6 +21,8 @@ public class UpdateLogic {
 	@Autowired
 	private HttpSession session;
 
+	boolean notUpdate = true;//更新処理がかかったか否か
+
 	/**更新処理を行う
 	 * @param input
 	 * @param mav
@@ -33,7 +35,6 @@ public class UpdateLogic {
 		String phoneNumber = input.getPhoneNumber();
 		int id = input.getId();
 
-
 		//初期表示の際はフィールドがnullになるため、処理を終わらせる
 		if (name == null || phoneNumber == null) {
 			mav.setViewName("update");
@@ -44,6 +45,8 @@ public class UpdateLogic {
 		boolean isCorrectOfName = ValidationUtility.isCorrentName(name,mav);
 		boolean isCorrectOfPhoneNumber = ValidationUtility.isCorrentPhoneNumber(phoneNumber,mav);
 		if (!isCorrectOfName || !isCorrectOfPhoneNumber) {
+
+			mav.addObject("notUpdate",notUpdate);
 			mav.addObject("pageNum",pageNum);
 			mav.addObject("id", id);
 			mav.addObject("name", name);
@@ -60,6 +63,7 @@ public class UpdateLogic {
 		mav.addObject("nameMessage", Message.SUCCESS_UPDATE);
 //		passUpdate = true;
 		phoneBookRepository.update(name, phoneNumber, id);
+		notUpdate = false;
 
 //		SearchForm updateName = new SearchForm();
 //		updateName.setKeyword(name);
@@ -71,10 +75,15 @@ public class UpdateLogic {
 		}else {
 			mav.addObject("pageNum",0);
 		}
+		mav.addObject("notUpdate",notUpdate);
 		mav.addObject("id", id);
 		mav.addObject("name", name);
 		mav.addObject("phoneNumber", phoneNumber);
 		mav.setViewName("update");
 
+	}
+
+	public boolean judgeUpdate() {
+		return notUpdate;
 	}
 }

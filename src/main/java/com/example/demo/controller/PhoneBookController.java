@@ -20,17 +20,20 @@ public class PhoneBookController {
 	private SearchLogic search;
 	//検索ボタンを押下したか否かのフラグ
 	boolean isClicked = false;
-//	//更新処理を行ったかのフラグ
-//	boolean passUpdate = false;
-//	//更新画面を経由したかどうかのフラグ
-//	boolean throughUpdate = false;
+//	更新処理を行ったかのフラグ
+	boolean notUpdate = true;
+//	更新画面を経由したかどうかのフラグ
+	boolean throughUpdate = false;
 	/**トップページを表示*/
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView searchInit(ModelAndView mav) {
 
 		search(new SearchForm(), mav);
-		isClicked = false;
-		//検索ボタンが押下されたか否かを確認するためのフラグ
+
+
+			isClicked = false;
+			notUpdate = true;
+			throughUpdate = false;
 		mav.addObject("isClicked", isClicked);
 		return mav;
 	}
@@ -55,7 +58,12 @@ public class PhoneBookController {
 	public ModelAndView nextpaging(ModelAndView mav, @RequestParam(value = "pageNum", required = true) int pageNum,
 			SearchForm input) {
 
-		search.nextpaging(pageNum, mav,input,isClicked);
+		if(!notUpdate) {
+			searchInit(mav);
+		}
+
+
+		search.nextpaging(pageNum, mav,input,isClicked,throughUpdate,notUpdate);
 		return mav;
 	}
 
@@ -63,6 +71,7 @@ public class PhoneBookController {
 	@RequestMapping(value = "/searchprevious", method = RequestMethod.POST)
 	public ModelAndView previouspaging(ModelAndView mav,
 			@RequestParam(value = "pageNum", required = true) int pageNum,SearchForm input) {
+
 
 		search.previouspaging(pageNum, mav,input,isClicked);
 
@@ -95,14 +104,13 @@ public class PhoneBookController {
 			@RequestParam(value = "phoneNumber", required = true) String phoneNumber,
 			@RequestParam(value = "id", required = true) int id,
 			@RequestParam(value = "pageNum",required = true) int pageNum) {
-//		passUpdate = true;
-//		throughUpdate = true;
+
 		int adjustPageNum = pageNum-1;
 		mav.addObject("pageNum",adjustPageNum);
 		mav.addObject("id", id);
 		mav.addObject("name", name);
 		mav.addObject("phoneNumber", phoneNumber);
-
+		throughUpdate = true;
 		return update(new InputedForm(), mav,pageNum);
 
 	}
@@ -112,9 +120,8 @@ public class PhoneBookController {
 	@RequestMapping(value = "/updatenew", method = RequestMethod.POST)
 	public ModelAndView update(InputedForm input, ModelAndView mav, int pageNum) {
 		update.execute(input, mav,pageNum,isClicked);
-//		if(!passUpdate && !isClicked) {
-//			isClicked  = true;
-//		}
+		notUpdate = update.judgeUpdate();
+
 		return mav;
 	}
 
