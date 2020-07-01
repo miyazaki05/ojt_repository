@@ -20,14 +20,14 @@ public class PhoneBookController {
 	private SearchLogic search;
 	//検索ボタンを押下したか否かのフラグ
 	boolean isClicked = false;
+//	//更新処理を行ったかのフラグ
+//	boolean passUpdate = false;
+//	//更新画面を経由したかどうかのフラグ
+//	boolean throughUpdate = false;
 	/**トップページを表示*/
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView searchInit(ModelAndView mav) {
-//		isClicked = false;
-//		//検索結果表示 → 更新画面 → 一覧画面の流れ
-//		if(isClicked) {
-//			isClicked = false;
-//		}
+
 		search(new SearchForm(), mav);
 		isClicked = false;
 		//検索ボタンが押下されたか否かを確認するためのフラグ
@@ -44,6 +44,12 @@ public class PhoneBookController {
 		return mav;
 	}
 
+//	@RequestMapping(value = "/back",method = RequestMethod.POST)
+//	public void updateSupport(@RequestParam(value = "pageNum", required = true) int pageNum,ModelAndView mav,@RequestParam(value = "updateName", required = true) String name) {
+//		SearchForm input = new SearchForm();
+//		input.setKeyword(name);
+//		search.nextpaging(pageNum, mav,input,isClicked, passUpdate);
+//	}
 	/**次のページへ*/
 	@RequestMapping(value = "/searchnext", method = RequestMethod.POST)
 	public ModelAndView nextpaging(ModelAndView mav, @RequestParam(value = "pageNum", required = true) int pageNum,
@@ -89,6 +95,8 @@ public class PhoneBookController {
 			@RequestParam(value = "phoneNumber", required = true) String phoneNumber,
 			@RequestParam(value = "id", required = true) int id,
 			@RequestParam(value = "pageNum",required = true) int pageNum) {
+//		passUpdate = true;
+//		throughUpdate = true;
 		int adjustPageNum = pageNum-1;
 		mav.addObject("pageNum",adjustPageNum);
 		mav.addObject("id", id);
@@ -103,8 +111,10 @@ public class PhoneBookController {
 	 * @param pageNum */
 	@RequestMapping(value = "/updatenew", method = RequestMethod.POST)
 	public ModelAndView update(InputedForm input, ModelAndView mav, int pageNum) {
-
-		update.execute(input, mav,pageNum);
+		update.execute(input, mav,pageNum,isClicked);
+//		if(!passUpdate && !isClicked) {
+//			isClicked  = true;
+//		}
 		return mav;
 	}
 

@@ -112,6 +112,10 @@ public class SearchLogic {
 //		if (phoneBookList.size() - (15 * pageNum) > 0 && phoneBookList != null) {
 //			pageNum++;
 //		}
+
+		if(isClicked) {
+			keyword = phoneBookList.get(0).getName();
+		}
 		if(pageNum < 0) {
 			pageNum = 0;
 		}
