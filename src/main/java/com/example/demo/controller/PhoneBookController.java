@@ -20,20 +20,19 @@ public class PhoneBookController {
 	private SearchLogic search;
 	//検索ボタンを押下したか否かのフラグ
 	boolean isClicked = false;
-//	更新処理を行ったかのフラグ
-	boolean notUpdate = true;
-//	更新画面を経由したかどうかのフラグ
-	boolean throughUpdate = false;
+	//更新画面を通ったか否かのフラグ
+	boolean passUpdate = false;
 	/**トップページを表示*/
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView searchInit(ModelAndView mav) {
-
+//		isClicked = false;
+//		//検索結果表示 → 更新画面 → 一覧画面の流れ
+//		if(isClicked) {
+//			isClicked = false;
+//		}
 		search(new SearchForm(), mav);
-
-
-			isClicked = false;
-			notUpdate = true;
-			throughUpdate = false;
+		isClicked = false;
+		//検索ボタンが押下されたか否かを確認するためのフラグ
 		mav.addObject("isClicked", isClicked);
 		return mav;
 	}
@@ -47,23 +46,23 @@ public class PhoneBookController {
 		return mav;
 	}
 
-//	@RequestMapping(value = "/back",method = RequestMethod.POST)
-//	public void updateSupport(@RequestParam(value = "pageNum", required = true) int pageNum,ModelAndView mav,@RequestParam(value = "updateName", required = true) String name) {
-//		SearchForm input = new SearchForm();
-//		input.setKeyword(name);
-//		search.nextpaging(pageNum, mav,input,isClicked, passUpdate);
-//	}
+	@RequestMapping(value = "/back", method = RequestMethod.POST)
+	public ModelAndView back(ModelAndView mav, @RequestParam(value = "pageNum", required = true) int pageNum,
+			SearchForm input) {
+		if(passUpdate&&isClicked) {
+			return searchInit(mav);
+		}
+		nextpaging(mav,pageNum,input);
+		return mav;
+	}
+
+
 	/**次のページへ*/
 	@RequestMapping(value = "/searchnext", method = RequestMethod.POST)
 	public ModelAndView nextpaging(ModelAndView mav, @RequestParam(value = "pageNum", required = true) int pageNum,
 			SearchForm input) {
 
-		if(!notUpdate) {
-			searchInit(mav);
-		}
-
-
-		search.nextpaging(pageNum, mav,input,isClicked,throughUpdate,notUpdate);
+		search.nextpaging(pageNum, mav,input,isClicked);
 		return mav;
 	}
 
@@ -71,7 +70,6 @@ public class PhoneBookController {
 	@RequestMapping(value = "/searchprevious", method = RequestMethod.POST)
 	public ModelAndView previouspaging(ModelAndView mav,
 			@RequestParam(value = "pageNum", required = true) int pageNum,SearchForm input) {
-
 
 		search.previouspaging(pageNum, mav,input,isClicked);
 
@@ -104,13 +102,12 @@ public class PhoneBookController {
 			@RequestParam(value = "phoneNumber", required = true) String phoneNumber,
 			@RequestParam(value = "id", required = true) int id,
 			@RequestParam(value = "pageNum",required = true) int pageNum) {
-
 		int adjustPageNum = pageNum-1;
 		mav.addObject("pageNum",adjustPageNum);
 		mav.addObject("id", id);
 		mav.addObject("name", name);
 		mav.addObject("phoneNumber", phoneNumber);
-		throughUpdate = true;
+		passUpdate = true;
 		return update(new InputedForm(), mav,pageNum);
 
 	}
@@ -119,9 +116,8 @@ public class PhoneBookController {
 	 * @param pageNum */
 	@RequestMapping(value = "/updatenew", method = RequestMethod.POST)
 	public ModelAndView update(InputedForm input, ModelAndView mav, int pageNum) {
-		update.execute(input, mav,pageNum,isClicked);
-		notUpdate = update.judgeUpdate();
 
+		update.execute(input, mav,pageNum);
 		return mav;
 	}
 

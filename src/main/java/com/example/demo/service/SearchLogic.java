@@ -102,10 +102,9 @@ public class SearchLogic {
 	 * @param mav
 	 * @param input
 	 * @param isClicked
-	 * @param throughUpdate
-	 * @param notUpdate
+	 * @param passUpdate
 	 */
-	public void nextpaging(int pageNum, ModelAndView mav, SearchForm input, boolean isClicked, boolean throughUpdate, boolean notUpdate) {
+	public void nextpaging(int pageNum, ModelAndView mav, SearchForm input, boolean isClicked) {
 
 		List<PhoneBookEntity> phoneBookList = (List<PhoneBookEntity>) session.getAttribute("phoneBookList");
 		String keyword = input.getKeyword();
@@ -114,15 +113,6 @@ public class SearchLogic {
 //		if (phoneBookList.size() - (15 * pageNum) > 0 && phoneBookList != null) {
 //			pageNum++;
 //		}
-
-		if(!notUpdate) {
-			isClicked = false;
-		}
-		//更新画面から更新を行わずに戻ってきた場合
-		//そのまま検索結果画面にする
-		if(isClicked && throughUpdate) {
-			keyword = phoneBookList.get(0).getName();
-		}
 		if(pageNum < 0) {
 			pageNum = 0;
 		}
