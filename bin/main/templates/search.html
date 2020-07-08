@@ -12,6 +12,9 @@
 <div th:if="${isClicked}">
 <h1>検索結果表示画面</h1>
 </div>
+<form method="post"action="/csv">
+	<input type="submit" value="CSV" >
+</form>
 <input type="submit" value="新規" style="position: relative; right: -350px; top: 0px"onclick="location.href='./regist'"/>
 <span class="msg" th:text="${msg}"></span>
 <br>
@@ -19,7 +22,15 @@
 <form method="post" action="/search">
 <span>名前：</span>
 	<input type="text" name="keyword" th:value="${keyword}"/>
+<div>
+<span>住所：</span>
+
+<select th:value="${address}" th:field="*{address}">
+<option th:value="選択なし" th:text="選択なし"></option>
+<option th:value="北海道" th:text="北海道"></option>
+</select>
 	<input type="submit" value="検索" />
+</div>
 </form>
 
 <table id="table" border="1" style="border-collapse: collapse">
@@ -27,6 +38,7 @@
 		<th class="No">No</th>
 		<th class="name">名前</th>
 		<th class="phoneNumber">電話番号</th>
+		<th class="address">住所</th>
 		<th class="upBtn">更新</th>
 		<th class="delBtn">削除</th>
 	</tr>
@@ -36,6 +48,7 @@
 		<td th:text="${phoneBook.resultId}"></td>
 		<td th:text="${phoneBook.name}"></td>
 		<td th:text="${phoneBook.phoneNumber}"></td>
+		<td th:text="${phoneBook.address}"></td>
 		<td>
 			<form method="post" action="/update"
 				th:object="${inputForm}">
@@ -44,6 +57,7 @@
 				<input type="hidden" name="name" th:value="${phoneBook.name}">
 				<input type="hidden" name="phoneNumber"
 				th:value="${phoneBook.phoneNumber}">
+				<input type="hidden" name="address" th:value="${phoneBook.address}">
 				<input type="submit" value="🔃"/>
  			</form>
  		</td>
@@ -54,6 +68,7 @@
 				 <input type="hidden" name="name" th:value="${phoneBook.name}">
 				 <input type="hidden" name="phoneNumber"
 					th:value="${phoneBook.phoneNumber}">
+				<input type="hidden" name="address" th:value="${phoneBook.address}">
      			<input type="submit" value="🚮"/>
  			</form>
 		</td>

@@ -46,6 +46,14 @@ public class PhoneBookController {
 		return mav;
 	}
 
+	@RequestMapping(value = "/csv", method = RequestMethod.POST)
+	public ModelAndView csv(ModelAndView mav) {
+
+		search.exportCsv(mav);
+
+		return searchInit(mav);
+	}
+
 	@RequestMapping(value = "/back", method = RequestMethod.POST)
 	public ModelAndView back(ModelAndView mav, @RequestParam(value = "pageNum", required = true) int pageNum,
 			SearchForm input) {

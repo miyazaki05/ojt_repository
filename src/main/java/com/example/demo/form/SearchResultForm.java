@@ -8,7 +8,16 @@ public class SearchResultForm {
 	private int id;
 	private int resultId;
 	private int pageNum;
+	private String address;
 
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
 	public int getPageNum() {
 		return pageNum;

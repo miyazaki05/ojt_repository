@@ -15,14 +15,17 @@ import com.example.demo.entity.PhoneBookEntity;
 public interface PhoneBookRepository extends JpaRepository<PhoneBookEntity, Long> {
 
 	/**検索SQL*/
-	@Query(value = "SELECT p.account_id, p.name, p.phone_number FROM phonebook p ORDER BY p.account_id", nativeQuery = true)
+	@Query(value = "SELECT p.account_id, p.name, p.phone_number, p.address FROM phonebook p ORDER BY p.account_id", nativeQuery = true)
 	public List<PhoneBookEntity> findAll();
 
-	@Query(value = "SELECT p.account_id, p.name, p.phone_number FROM phonebook p where p.name = :keyword ORDER BY p.account_id", nativeQuery = true)
-	public List<PhoneBookEntity> findResult(@Param("keyword") String keyword);
+	@Query(value = "SELECT p.account_id, p.name, p.phone_number , p.address FROM phonebook p where p.name = :keyword ORDER BY p.account_id", nativeQuery = true)
+	public List<PhoneBookEntity> findByKeyword(@Param("keyword") String keyword);
 
-	@Query(value = "SELECT p.account_id FROM phonebook p where p.name = :name AND p.phone_number = :phoneNumber ORDER BY p.account_id", nativeQuery = true)
-	public int findId(@Param("name") String name, @Param("phoneNumber") String phoneNumber);
+	@Query(value = "SELECT p.account_id, p.name, p.phone_number , p.address FROM phonebook p where p.name = :keyword AND p.address = :address ORDER BY p.account_id", nativeQuery = true)
+	public List<PhoneBookEntity> findResult(String keyword, String address);
+
+	@Query(value = "SELECT p.account_id, p.name, p.phone_number , p.address FROM phonebook p where p.address = :address ORDER BY p.account_id", nativeQuery = true)
+	public List<PhoneBookEntity> findByAddress(@Param("address") String address);
 
 	/**削除SQL*/
 	@Modifying
@@ -41,5 +44,8 @@ public interface PhoneBookRepository extends JpaRepository<PhoneBookEntity, Long
 	@Transactional
 	@Query(value = "UPDATE phonebook SET name = :name, phone_number = :phoneNumber WHERE account_id = :id", nativeQuery = true)
 	public void update(@Param("name") String name, @Param("phoneNumber") String phoneNumber, @Param("id") int id);
+
+
+
 
 }

@@ -41,6 +41,20 @@ public class PhoneBookEntity {
 	@Column(name = "phone_number")
 	private String phoneNumber;
 
+	/**
+	 * 住所
+	 */
+	@Column(name = "address")
+	private String address;
+
+	public String getAdress() {
+		return address;
+	}
+
+	public void setAdress(String address) {
+		this.address = address;
+	}
+
 	public int getId() {
 		return id;
 	}
