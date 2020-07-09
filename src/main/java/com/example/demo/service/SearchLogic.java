@@ -111,6 +111,8 @@ public class SearchLogic {
 		session.setAttribute("list_page" + pageNum, searchList);
 		SearchLogic.searchMsg(phoneBookList, keyword, mav, address);
 		mav.setViewName("search");
+		mav.addObject("message1","CSV出力では都道府県ごとの人数を集約します");
+		mav.addObject("message2","住所欄に「住所不明」と入力して検索することも可能です");
 
 	}
 
@@ -184,6 +186,8 @@ public class SearchLogic {
 		}
 		mav.addObject("isClicked", isClicked);
 		mav.setViewName("search");
+		mav.addObject("message1","CSV出力では都道府県ごとの人数を集約します");
+		mav.addObject("message2","住所欄に「住所不明」と入力して検索することも可能です");
 	}
 
 	/**「前へ」ボタン押下時の処理
@@ -218,6 +222,8 @@ public class SearchLogic {
 		mav.addObject("isLast", false);
 		mav.addObject("isClicked", isClicked);
 		mav.setViewName("search");
+		mav.addObject("message1","CSV出力では都道府県ごとの人数を集約します");
+		mav.addObject("message2","住所欄に「住所不明」と入力して検索することも可能です");
 
 	}
 
@@ -268,7 +274,7 @@ public class SearchLogic {
 			if (phoneBookList.isEmpty()) {
 				mav.addObject("msg", Message.NOT_HIT);
 			} else {
-				mav.addObject("searchkeyword", "名前" + inputName + "住所" + address + Message.SEARCH_KEYWORD);
+				mav.addObject("searchkeyword", "名前:" + inputName +"　" +  "住所:" + address + Message.SEARCH_KEYWORD);
 				mav.addObject("msg", phoneBookList.size() + Message.SEARCH_HIT_COUNT);
 			}
 		}

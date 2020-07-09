@@ -20,18 +20,18 @@ public class RegistLogic {
 	public void execute(InputedForm input, ModelAndView mav) {
 		String name = input.getName();
 		String phoneNumber = input.getPhoneNumber();
+		String address = input.getAddress();
+
+		//住所を選択なしで選択した場合は「住所不明」で登録する
+		if("選択なし".equals(address)) {
+			address = "住所不明";
+		}
 
 		//登録画面初期表示の際はフィールドがnullのため、処理を終わらせる
 		if (name == null || phoneNumber == null) {
 			mav.setViewName("regist");
 			return;
 		}
-
-//		//名前、番号共に空白を含む場合はここで除去する
-//		name.trim();
-//		name.replaceAll("　", " ").replaceAll(" ", "");
-//		phoneNumber.trim();
-//		phoneNumber.replaceAll("　", " ").replaceAll(" ", "");
 
 		boolean isCorrectOfName = ValidationUtility.isCorrentName(name,mav);
 		boolean isCorrectOfPhoneNumber = ValidationUtility.isCorrentPhoneNumber(phoneNumber,mav);
@@ -42,7 +42,7 @@ public class RegistLogic {
 		}
 
 
-		phoneBookRepository.regist(name, phoneNumber);
+		phoneBookRepository.regist(name, phoneNumber,address);
 		mav.addObject("nameMessage", Message.SUCCESS_REGIST);
 
 		mav.setViewName("regist");

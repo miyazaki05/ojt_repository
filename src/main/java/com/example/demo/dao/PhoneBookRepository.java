@@ -36,8 +36,8 @@ public interface PhoneBookRepository extends JpaRepository<PhoneBookEntity, Long
 	/**登録SQL*/
 	@Modifying
 	@Transactional
-	@Query(value = "INSERT INTO phonebook (name,phone_number) VALUES (:name,:phoneNumber)", nativeQuery = true)
-	public void regist(@Param("name") String name, @Param("phoneNumber") String phoneNumber);
+	@Query(value = "INSERT INTO phonebook (name,phone_number,address) VALUES (:name,:phoneNumber,:address)", nativeQuery = true)
+	public void regist(@Param("name") String name, @Param("phoneNumber") String phoneNumber,@Param("address") String address);
 
 	/**更新SQL*/
 	@Modifying

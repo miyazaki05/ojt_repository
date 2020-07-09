@@ -12,6 +12,10 @@
 <div th:if="${isClicked}">
 <h1>検索結果表示画面</h1>
 </div>
+<div>
+<span class="msg" th:text="${message1}"></span>
+</div>
+<span class="msg" th:text="${message2}"></span>
 <form method="post"action="/csv">
 	<input type="submit" value="CSV" >
 </form>

@@ -45,7 +45,7 @@ public class PhoneBookController {
 		search.execute(input, mav,isClicked);
 		return mav;
 	}
-
+	/**CSVボタン押下時の処理*/
 	@RequestMapping(value = "/csv", method = RequestMethod.POST)
 	public ModelAndView csv(ModelAndView mav) {
 
@@ -53,7 +53,7 @@ public class PhoneBookController {
 
 		return searchInit(mav);
 	}
-
+	/**更新画面での「戻る」ボタン押下時に元の画面に戻る*/
 	@RequestMapping(value = "/back", method = RequestMethod.POST)
 	public ModelAndView back(ModelAndView mav, @RequestParam(value = "pageNum", required = true) int pageNum,
 			SearchForm input) {
