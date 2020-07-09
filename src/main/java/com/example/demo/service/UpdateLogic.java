@@ -29,6 +29,11 @@ public class UpdateLogic {
 		String address = input.getAddress();
 		int id = input.getId();
 
+		//住所不明での更新は「選択なし」として更新する
+		if("住所不明".equals(address)) {
+			address = "選択なし";
+		}
+
 		//初期表示の際はフィールドがnullになるため、処理を終わらせる
 		if (name == null || phoneNumber == null) {
 			mav.setViewName("update");
