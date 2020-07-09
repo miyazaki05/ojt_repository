@@ -109,12 +109,14 @@ public class PhoneBookController {
 	public ModelAndView updateInit(ModelAndView mav, @RequestParam(value = "name", required = true) String name,
 			@RequestParam(value = "phoneNumber", required = true) String phoneNumber,
 			@RequestParam(value = "id", required = true) int id,
-			@RequestParam(value = "pageNum",required = true) int pageNum) {
+			@RequestParam(value = "pageNum",required = true) int pageNum,
+			@RequestParam(value = "address",required = true) String address) {
 		int adjustPageNum = pageNum-1;
 		mav.addObject("pageNum",adjustPageNum);
 		mav.addObject("id", id);
 		mav.addObject("name", name);
 		mav.addObject("phoneNumber", phoneNumber);
+		mav.addObject("address", address);
 		passUpdate = true;
 		return update(new InputedForm(), mav,pageNum);
 

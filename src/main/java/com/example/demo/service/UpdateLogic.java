@@ -26,6 +26,7 @@ public class UpdateLogic {
 
 		String name = input.getName();
 		String phoneNumber = input.getPhoneNumber();
+		String address = input.getAddress();
 		int id = input.getId();
 
 		//初期表示の際はフィールドがnullになるため、処理を終わらせる
@@ -46,14 +47,14 @@ public class UpdateLogic {
 			updateName.setKeyword(name);
 			mav.addObject("updateName",updateName);
 			mav.setViewName("update");
+			mav.addObject("address",address);
 			return;
 		}
 
 
 		mav.addObject("nameMessage", Message.SUCCESS_UPDATE);
-		phoneBookRepository.update(name, phoneNumber, id);
-//		SearchForm updateName = new SearchForm();
-//		updateName.setKeyword(name);
+		phoneBookRepository.update(name, phoneNumber, id,address);
+
 		searchLogic.execute(new SearchForm(), mav, false);
 
 		mav.addObject("pageNum",pageNum);
@@ -61,6 +62,7 @@ public class UpdateLogic {
 		mav.addObject("name", name);
 		mav.addObject("phoneNumber", phoneNumber);
 		mav.setViewName("update");
+		mav.addObject("address",address);
 
 	}
 }

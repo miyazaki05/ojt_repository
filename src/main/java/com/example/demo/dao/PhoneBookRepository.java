@@ -42,8 +42,8 @@ public interface PhoneBookRepository extends JpaRepository<PhoneBookEntity, Long
 	/**更新SQL*/
 	@Modifying
 	@Transactional
-	@Query(value = "UPDATE phonebook SET name = :name, phone_number = :phoneNumber WHERE account_id = :id", nativeQuery = true)
-	public void update(@Param("name") String name, @Param("phoneNumber") String phoneNumber, @Param("id") int id);
+	@Query(value = "UPDATE phonebook SET name = :name, phone_number = :phoneNumber,address = :address WHERE account_id = :id", nativeQuery = true)
+	public void update(@Param("name") String name, @Param("phoneNumber") String phoneNumber, @Param("id") int id,@Param("address") String address);
 
 
 

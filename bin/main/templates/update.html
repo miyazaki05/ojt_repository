@@ -28,10 +28,8 @@
 <div>
 
 <span>住所：</span>
-<script>
-document.getElementByName('address').options[1].selected = true;
-</script>
-<select name=address th:value="${address}">
+
+<select name="address" id="address" th:value=${address}>
 <option value="選択なし">選択なし</option>
 <option value="北海道" >北海道</option>
 <option value="青森県">青森県</option>
@@ -82,7 +80,10 @@ document.getElementByName('address').options[1].selected = true;
 <option value="沖縄県">沖縄県</option>
 <option value="住所不明" >住所不明</option>
 </select>
-
+<script th:inline="javascript">
+var address = /*[[${address}]]*/
+document.getElementById('address').value = address;
+</script>
 	<input type="submit" value="更新" />
 </div>
 </form>

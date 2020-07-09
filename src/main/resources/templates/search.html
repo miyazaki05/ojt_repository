@@ -19,17 +19,18 @@
 <form method="post"action="/csv">
 	<input type="submit" value="CSV" >
 </form>
-<input type="submit" value="新規" style="position: relative; right: -350px; top: 0px"onclick="location.href='./regist'"/>
+
 <span class="msg" th:text="${msg}"></span>
 <br>
 <span class="msg" th:text="${searchkeyword}"></span>
+<input type="submit" value="新規" style="position: relative; right: -350px; top: 0px"onclick="location.href='./regist'"/>
 <form method="post" action="/search">
 <span>名前：</span>
 	<input type="text" name="keyword" th:value="${keyword}"/>
 <div>
 <span>住所：</span>
 
-<select name="address" >
+<select name="address">
 <option value="選択なし">選択なし</option>
 <option value="北海道" >北海道</option>
 <option value="青森県">青森県</option>
@@ -80,6 +81,7 @@
 <option value="沖縄県">沖縄県</option>
 <option value="住所不明" >住所不明</option>
 </select>
+
 	<input type="submit" value="検索" />
 </div>
 </form>
