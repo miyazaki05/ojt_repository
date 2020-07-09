@@ -15,8 +15,14 @@ public class Message {
 	/**検索に用いたキーワードを出すメッセージ*/
 	public static final String SEARCH_KEYWORD = "による検索結果";
 
-	/**検索にヒットした際に出すメッセージ*/
-	public static final String SEARCH_NOT_HIT = "入力された名前はありません。";
+	/**名前が検索にヒットしなかった際に出すメッセージ*/
+	public static final String KEYWORD_NOT_HIT = "入力された名前はありません。";
+
+	/**住所が検索にヒットしなかった際に出すメッセージ*/
+	public static final String ADDRESS_NOT_HIT = "選択された住所はありません。";
+
+	/**名前、住所共に検索にヒットしなかった際に出すメッセージ*/
+	public static final String NOT_HIT = "入力された名前、選択された住所どちらにも合致するデータはありません";
 
 	/**入力した値が空の場合に出すメッセージ*/
 	public static final String INPUT_EMPTY = "名前、電話番号の入力は必須です。";

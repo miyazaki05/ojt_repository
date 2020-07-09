@@ -22,7 +22,7 @@ public interface PhoneBookRepository extends JpaRepository<PhoneBookEntity, Long
 	public List<PhoneBookEntity> findByKeyword(@Param("keyword") String keyword);
 
 	@Query(value = "SELECT p.account_id, p.name, p.phone_number , p.address FROM phonebook p where p.name = :keyword AND p.address = :address ORDER BY p.account_id", nativeQuery = true)
-	public List<PhoneBookEntity> findResult(String keyword, String address);
+	public List<PhoneBookEntity> findResult(@Param("keyword") String keyword,@Param("address")  String address);
 
 	@Query(value = "SELECT p.account_id, p.name, p.phone_number , p.address FROM phonebook p where p.address = :address ORDER BY p.account_id", nativeQuery = true)
 	public List<PhoneBookEntity> findByAddress(@Param("address") String address);

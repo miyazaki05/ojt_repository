@@ -48,10 +48,10 @@ public class SearchLogic {
 		String keyword = input.getKeyword();
 		String address = input.getAddress();
 
-		//検索結果表示画面に検索キーワードを表示する
-		if (keyword != null && keyword != "" && !keywordCheck(keyword)) {
-			mav.addObject("searchkeyword", keyword + Message.SEARCH_KEYWORD);
-		}
+		//		検索結果表示画面に検索キーワードを表示する
+		//		if (keyword != null && keyword != "" && !keywordCheck(keyword)) {
+		//			mav.addObject("searchkeyword", keyword + Message.SEARCH_KEYWORD);
+		//		}
 		List<SearchResultForm> searchList = new ArrayList<>();
 		if (keyword == null) {
 			phoneBookList = phoneBookRepository.findAll();
@@ -109,7 +109,7 @@ public class SearchLogic {
 		mav.addObject("keyword", keyword);
 		mav.addObject("address", new InputedForm());
 		session.setAttribute("list_page" + pageNum, searchList);
-		SearchLogic.searchMsg(phoneBookList, keyword, mav);
+		SearchLogic.searchMsg(phoneBookList, keyword, mav, address);
 		mav.setViewName("search");
 
 	}
@@ -125,6 +125,7 @@ public class SearchLogic {
 
 		List<PhoneBookEntity> phoneBookList = (List<PhoneBookEntity>) session.getAttribute("phoneBookList");
 		String keyword = input.getKeyword();
+		String address = input.getAddress();
 		//		//最終ページで「次へ」ボタンを押下した際は常に最終ページを表示するようにする
 		//
 		//		if (phoneBookList.size() - (15 * pageNum) > 0 && phoneBookList != null) {
@@ -143,9 +144,9 @@ public class SearchLogic {
 			lastPage = phoneBookList.size() / 15 + 1;
 		}
 
-		if (keyword != null && keyword != "" && !keywordCheck(keyword)) {
-			mav.addObject("searchkeyword", keyword + Message.SEARCH_KEYWORD);
-		}
+		//		if (keyword != null && keyword != "" && !keywordCheck(keyword)) {
+		//			mav.addObject("searchkeyword", keyword + Message.SEARCH_KEYWORD);
+		//		}
 
 		List<SearchResultForm> searchList = new ArrayList<>();
 		int firstDataIndex = 15 * (pageNum - 1);//各ページの最初のデータのインデックスを格納する変数
@@ -179,7 +180,7 @@ public class SearchLogic {
 		mav.addObject("pageNum", pageNum);
 		session.setAttribute("list_page" + pageNum, searchList);
 		if (isClicked) {
-			SearchLogic.searchMsg(phoneBookList, keyword, mav);
+			SearchLogic.searchMsg(phoneBookList, keyword, mav, address);
 		}
 		mav.addObject("isClicked", isClicked);
 		mav.setViewName("search");
@@ -196,6 +197,7 @@ public class SearchLogic {
 		int previousPage = pageNum - 1;
 
 		String keyword = input.getKeyword();
+		String address = input.getAddress();
 		if (keyword != null && keyword != "" && !keywordCheck(keyword)) {
 			mav.addObject("searchkeyword", keyword + Message.SEARCH_KEYWORD);
 		}
@@ -211,7 +213,7 @@ public class SearchLogic {
 		mav.addObject("pageNum", previousPage);
 		mav.addObject("keyword", keyword);
 		if (isClicked) {
-			SearchLogic.searchMsg(phoneBookList, keyword, mav);
+			SearchLogic.searchMsg(phoneBookList, keyword, mav, address);
 		}
 		mav.addObject("isLast", false);
 		mav.addObject("isClicked", isClicked);
@@ -224,20 +226,53 @@ public class SearchLogic {
 	 * @param inputName
 	 * @param mav
 	 */
-	private static void searchMsg(List<PhoneBookEntity> phoneBookList, String inputName, ModelAndView mav) {
-		if (inputName == null) {
+	private static void searchMsg(List<PhoneBookEntity> phoneBookList, String inputName, ModelAndView mav,
+			String address) {
+		if (inputName == null) {//初期表示ではメッセージを表示しない
 			return;
 		}
 
-		if (inputName.equals("")) {
-			mav.addObject("msg", Message.SEARCH_EMPTY);
-		} else if (keywordCheck(inputName)) {//入力チェック
+		if (keywordCheck(inputName)) {//入力チェック
 			mav.addObject("msg", Message.NAME_LIMIT);
-		} else if (phoneBookList.size() == 0) {
-			mav.addObject("msg", Message.SEARCH_NOT_HIT);
-		} else {
-			mav.addObject("msg", phoneBookList.size() + Message.SEARCH_HIT_COUNT);
+			return;
 		}
+
+		//名前未入力、住所「選択なし」の場合
+		if (inputName.equals("") && "選択なし".equals(address)) {
+			mav.addObject("msg", Message.SEARCH_EMPTY);
+		}
+
+		//名前入力、住所「選択なし」の場合
+		if (!"".equals(inputName) && "選択なし".equals(address)) {
+			if (phoneBookList.isEmpty()) {
+				mav.addObject("msg", Message.KEYWORD_NOT_HIT);
+			} else {
+				mav.addObject("searchkeyword", inputName + Message.SEARCH_KEYWORD);
+				mav.addObject("msg", phoneBookList.size() + Message.SEARCH_HIT_COUNT);
+			}
+			return;
+		}
+
+		//名前未入力、住所を選択した場合
+		if ("".equals(inputName) && !"選択なし".equals(address)) {
+			if (phoneBookList.isEmpty()) {
+				mav.addObject("msg", Message.ADDRESS_NOT_HIT);
+			} else {
+				mav.addObject("searchkeyword", address + Message.SEARCH_KEYWORD);
+				mav.addObject("msg", phoneBookList.size() + Message.SEARCH_HIT_COUNT);
+			}
+		}
+
+		//名前入力、住所選択の場合
+		if (!"".equals(inputName) && !"選択なし".equals(address)) {
+			if (phoneBookList.isEmpty()) {
+				mav.addObject("msg", Message.NOT_HIT);
+			} else {
+				mav.addObject("searchkeyword", "名前" + inputName + "住所" + address + Message.SEARCH_KEYWORD);
+				mav.addObject("msg", phoneBookList.size() + Message.SEARCH_HIT_COUNT);
+			}
+		}
+
 	}
 
 	/**検索画面における入力チェックを行う
