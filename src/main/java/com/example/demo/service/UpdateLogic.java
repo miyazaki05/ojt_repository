@@ -29,9 +29,9 @@ public class UpdateLogic {
 		String address = input.getAddress();
 		int id = input.getId();
 
-		//住所不明での更新は「選択なし」として更新する
-		if("住所不明".equals(address)) {
-			address = "選択なし";
+		//「選択なし」での更新は「住所不明」として更新する
+		if("選択なし".equals(address)) {
+			address = "住所不明";
 		}
 
 		//初期表示の際はフィールドがnullになるため、処理を終わらせる

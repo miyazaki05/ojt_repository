@@ -128,6 +128,10 @@ public class SearchLogic {
 		List<PhoneBookEntity> phoneBookList = (List<PhoneBookEntity>) session.getAttribute("phoneBookList");
 		String keyword = input.getKeyword();
 		String address = input.getAddress();
+
+		if(address == null) {
+			address = "選択なし";
+		}
 		//		//最終ページで「次へ」ボタンを押下した際は常に最終ページを表示するようにする
 		//
 		//		if (phoneBookList.size() - (15 * pageNum) > 0 && phoneBookList != null) {
@@ -202,6 +206,10 @@ public class SearchLogic {
 
 		String keyword = input.getKeyword();
 		String address = input.getAddress();
+
+		if(address == null) {
+			address = "選択なし";
+		}
 		if (keyword != null && keyword != "" && !keywordCheck(keyword)) {
 			mav.addObject("searchkeyword", keyword + Message.SEARCH_KEYWORD);
 		}
