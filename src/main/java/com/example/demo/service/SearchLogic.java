@@ -58,7 +58,7 @@ public class SearchLogic {
 			session.setAttribute("allData", phoneBookList);
 			//初期表示で表示するデータがない場合はメッセージをセット
 			if (phoneBookList.isEmpty()) {
-				mav.addObject("searchkeyword", Message.NODATE);
+				mav.addObject("searchkeyword", Message.NODATA);
 			}
 		} else if (("").equals(keyword) && "選択なし".equals(address)) {
 			phoneBookList = phoneBookRepository.findAll();
@@ -242,6 +242,7 @@ public class SearchLogic {
 	 */
 	private static void searchMsg(List<PhoneBookEntity> phoneBookList, String inputName, ModelAndView mav,
 			String address) {
+
 		if (inputName == null) {//初期表示ではメッセージを表示しない
 			return;
 		}
@@ -251,40 +252,29 @@ public class SearchLogic {
 			return;
 		}
 
-		//名前未入力、住所「選択なし」の場合
-		if (inputName.equals("") && "選択なし".equals(address)) {
+		//以下、268行目まで検索結果0件の場合のメッセージのセット、
+		//検索結果が1件以上の場合は検索結果なしのメッセージをヒットした件数で上書きする
+		if ("".equals(inputName) && "選択なし".equals(address)) {//名前未入力、住所「選択なし」の場合
 			mav.addObject("msg", Message.SEARCH_EMPTY);
-		}
-
-		//名前入力、住所「選択なし」の場合
-		if (!"".equals(inputName) && "選択なし".equals(address)) {
-			if (phoneBookList.isEmpty()) {
-				mav.addObject("msg", Message.KEYWORD_NOT_HIT);
-			} else {
-				mav.addObject("searchkeyword", inputName + Message.SEARCH_KEYWORD);
-				mav.addObject("msg", phoneBookList.size() + Message.SEARCH_HIT_COUNT);
-			}
 			return;
+		}else if(!"".equals(inputName) && "選択なし".equals(address)) {//名前入力、住所「選択なし」の場合
+			mav.addObject("msg", Message.KEYWORD_NOT_HIT);
+		}else if("".equals(inputName) && !"選択なし".equals(address)) {//名前未入力、住所を選択した場合
+			mav.addObject("msg", Message.ADDRESS_NOT_HIT);
+			inputName = address;//名前が未入力なため、住所で置き換える(検索キーワードの出力には名前を用いるため)
+			address = "選択なし";//名前、住所両方入力の場合との差別化
+		}else {//名前入力、住所選択の場合
+			mav.addObject("msg", Message.NOT_HIT);
 		}
 
-		//名前未入力、住所を選択した場合
-		if ("".equals(inputName) && !"選択なし".equals(address)) {
-			if (phoneBookList.isEmpty()) {
-				mav.addObject("msg", Message.ADDRESS_NOT_HIT);
-			} else {
-				mav.addObject("searchkeyword", address + Message.SEARCH_KEYWORD);
-				mav.addObject("msg", phoneBookList.size() + Message.SEARCH_HIT_COUNT);
-			}
+		if(!phoneBookList.isEmpty()) {
+			mav.addObject("msg", phoneBookList.size() + Message.SEARCH_HIT_COUNT);
 		}
 
-		//名前入力、住所選択の場合
-		if (!"".equals(inputName) && !"選択なし".equals(address)) {
-			if (phoneBookList.isEmpty()) {
-				mav.addObject("msg", Message.NOT_HIT);
-			} else {
-				mav.addObject("searchkeyword", "名前:" + inputName +"　" +  "住所:" + address + Message.SEARCH_KEYWORD);
-				mav.addObject("msg", phoneBookList.size() + Message.SEARCH_HIT_COUNT);
-			}
+		if("選択なし".equals(address)) {
+			mav.addObject("searchkeyword", inputName + Message.SEARCH_KEYWORD);
+		}else {
+			mav.addObject("searchkeyword", "名前:" + inputName +"　" +  "住所:" + address + Message.SEARCH_KEYWORD);
 		}
 
 	}
