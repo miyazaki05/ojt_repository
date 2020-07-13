@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,27 +15,27 @@ import com.example.demo.service.DeleteLogic;
 import com.example.demo.service.RegistLogic;
 import com.example.demo.service.SearchLogic;
 import com.example.demo.service.UpdateLogic;
+import com.example.demo.utility.Address;
 
 @Controller
 public class PhoneBookController {
 	@Autowired
 	private SearchLogic search;
+
 	//検索ボタンを押下したか否かのフラグ
 	boolean isClicked = false;
 	//更新画面を通ったか否かのフラグ
 	boolean passUpdate = false;
+
 	/**トップページを表示*/
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView searchInit(ModelAndView mav) {
-//		isClicked = false;
-//		//検索結果表示 → 更新画面 → 一覧画面の流れ
-//		if(isClicked) {
-//			isClicked = false;
-//		}
+
 		search(new SearchForm(), mav);
 		isClicked = false;
 		//検索ボタンが押下されたか否かを確認するためのフラグ
 		mav.addObject("isClicked", isClicked);
+
 		return mav;
 	}
 
@@ -41,6 +43,9 @@ public class PhoneBookController {
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
 	public ModelAndView search(SearchForm input, ModelAndView mav) {
 
+		ArrayList<String> prefectures = new ArrayList<>();
+		prefectures = Address.createList();
+		mav.addObject("prefectures",prefectures);
 		isClicked = true;
 		search.execute(input, mav,isClicked);
 		return mav;
@@ -70,6 +75,9 @@ public class PhoneBookController {
 	public ModelAndView nextpaging(ModelAndView mav, @RequestParam(value = "pageNum", required = true) int pageNum,
 			SearchForm input) {
 
+		ArrayList<String> prefectures = new ArrayList<>();
+		prefectures = Address.createList();
+		mav.addObject("prefectures",prefectures);
 		search.nextpaging(pageNum, mav,input,isClicked);
 		return mav;
 	}
@@ -127,6 +135,9 @@ public class PhoneBookController {
 	@RequestMapping(value = "/updatenew", method = RequestMethod.POST)
 	public ModelAndView update(InputedForm input, ModelAndView mav, int pageNum) {
 
+		ArrayList<String> prefectures = new ArrayList<>();
+		prefectures = Address.createList();
+		mav.addObject("prefectures",prefectures);
 		update.execute(input, mav,pageNum);
 		return mav;
 	}
